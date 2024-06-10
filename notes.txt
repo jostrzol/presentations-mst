@@ -1,0 +1,41 @@
+## Tematy
+
+1. Rust vs C (vs może jeszcze jaki język) do programowania systemów wbudowanych.
+    * sporo prac; większość skupia się na porównaniu efektywności, zarządzania pamięcią, szybkością
+      kompilacji, itp.; część porównuje ze standardem MISRA C
+    * https://digitalcollection.zhaw.ch/bitstream/11475/25046/3/2022_Noseda-etal_Rust-for-secure-IoT-applications.pdf
+    * https://opus4.kobv.de/opus4-haw/files/786/I000819827Thesis.pdf
+    * https://blog.getreu.net/_downloads/embedded-system-security-with-Rust.pdf
+    * https://lup.lub.lu.se/luur/download?func=downloadFile&recordOId=8938297&fileOId=8938299
+2. Blockchain -- analiza użyteczności np. w kontekście wyborów w państwie demokratycznym.
+    * dużo prac: https://www.sciencedirect.com/science/article/pii/S2666449624000069#sec0002
+    * wady, niebezpieczeństwa: https://static1.squarespace.com/static/59aae5e9a803bb10bedeb03e/t/615c75f9eaae697e540f5c4f/1633449465655/VotingPaper-Rivest%2C+Narula%2C+Sunoo.pdf
+    * może ewentualnie znaleźć istniejące systemy do głosowania i dokonać ich analizy pod kątem
+      bezpieczeństwa, spróbować przeprowadzić jakieś ataki, naruszyć zaufanie
+3 i 4. Rozpoznawanie twarzy/odcisku palca -- niebezpieczeństwa. Testy pochodzenia z wykorzystaniem analizy DNA -- niebezpieczeństwa.
+    * algorytmy rozpoznawania twarzy: https://www.learntechlib.org/d/217823
+    * ataki na DNN: https://arxiv.org/pdf/1803.00401.pdf, https://github.com/shanzaygauhar/Adversarial-Attack-on-OpenFace
+    * ataki na Eigenfaces: https://ieeexplore.ieee.org/document/5507530
+    * metody przechowywania danych biometrycznych: https://ieeexplore.ieee.org/abstract/document/7420576
+    * Forensic DNA phenotyping -- generowanie twarzy na podstawie DNA, na razie mało dokładne
+5. Interfejsy komunikacji z mózgiem człowieka -- analiza.
+    * chyba odrzucę, za mało o tym wiem i za małe mam możliwości
+6. Coś medycznego (nie mam żadnego konkretnego pomysłu, ale być może znajdę coś co by mnie mogło zainteresować).
+    * to też bym jednak odrzucił z tego samego powodu co wyżej, poza tym nawet nie mam konkretnego
+      pomysłu
+7. Wirtualizacja układów elektronicznych typu Raspberry Pi, Arduino, ESP32 wraz z urządzeniami
+   wejścia/wyjścia (https://cs.unibo.it/~davide.berardi6/post/20201204-1.html) lub uniwersalny
+   symulator wspomagający programowanie systemów wbudowanych (https://wokwi.com).
+    * to fakycznie się wydaje trudne i czasochłonne zadanie niezależnie od wybranego wariantu
+
+## O sobie
+
+* Studiuję na WEITI, Informatyka 2 st., specjalizacja Inteligentne Systemy.
+* W zawodzie głównie zajmuję się rozwijaniem/utrzymywaniem webowych serwisów backendowych, ale
+  stykam się też z bazami danych i frontendem.
+* Zainteresowania z branży:
+    * cyberbezpieczeństwo (mało doświadczenia),
+    * systemy wbudowane (mało doświadczenia),
+    * języki funkcyjne,
+    * gry (mało doświadczenia).
+* Zainteresowania spoza branży: gitara (i ogólnie muzyka), judo, żeglarstwo, narty, rower.
