@@ -103,6 +103,19 @@ Poniżej zgromadziłem sprzęt, który będzie potrzebny do realizacji pracy.
 - Potencjometry
 - Diody LED
 
+## Harmonogram
+
+- 10.2024 -- konfiguracja środowiska, uruchomienie zadania 1. (,,Hello World'')
+  w każdym z języków na Raspberry PI
+- 11.2024 -- liczenie wskazanych metryk dla każdego z języków
+- 12.2024 -- *sesja egzaminacyjna na wymianie zagranicznej*
+- 01.2025 -- zadanie 2.
+- 02.2025 -- zadanie 3.
+- 03.2025 -- zadanie 4.
+- 04.2025 -- powtórzenie eksperymentów na ESP32, jeśli harmonogram dotrzymany
+  lub nadrobienie zaległości w przeciwnym wypadku
+- 05-06.2025 -- pisanie dokumentu wynikowego pracy magisterskiej
+
 ## Odnośniki
 
 - ankieta popularności języków TIBOE Index (ogólnie, nie tylko embedded):
