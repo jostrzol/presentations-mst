@@ -28,14 +28,13 @@
    symulator wspomagający programowanie systemów wbudowanych (https://wokwi.com).
     * to fakycznie się wydaje trudne i czasochłonne zadanie niezależnie od wybranego wariantu
 
-## O sobie
 
-* Studiuję na WEITI, Informatyka 2 st., specjalizacja Inteligentne Systemy.
-* W zawodzie głównie zajmuję się rozwijaniem/utrzymywaniem webowych serwisów backendowych, ale
-  stykam się też z bazami danych i frontendem.
-* Zainteresowania z branży:
-    * cyberbezpieczeństwo (mało doświadczenia),
-    * systemy wbudowane (mało doświadczenia),
-    * języki funkcyjne,
-    * gry (mało doświadczenia).
-* Zainteresowania spoza branży: gitara (i ogólnie muzyka), judo, żeglarstwo, narty, rower.
+## Konsultacja 14.01.2025
+
+pamięć:
+* linux -> htop/ps/coś
+* bare metal -> analiza pliku wykonawalnego + stack pointer
+godbolt
+zadanie programowania kwadratowego
+zadanie z nieliniową optymalizacją
+modbus TCP
