@@ -1,4 +1,5 @@
 out/
 .aux/
 *.pdf
+*.synctex.gz
 
