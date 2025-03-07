@@ -23,6 +23,7 @@
 \usepackage{epstopdf}
 \usepackage{graphicx}
 \usepackage{slashbox}
+\usepackage{amssymb}
 \usepackage{xurl}
 \usepackage{xcolor}
 \usepackage{listings}
@@ -98,48 +99,7 @@ Politechnika Warszawska}
 
 \frame{\titlepage}
 
-\frame{\tableofcontents\frametitle{Plan prezentacji}}
-
-\section{Cele pracy}
-
-\begin{frame}
-	\frametitle{Cele pracy}
-	Porównanie ilościowe i jakościowe języków w praktycznych
-	zastosowaniach dla systemów wbudowanych pod kątem:
-
-	\begin{itemize}
-		\item wydajności (np. czas wykonania, zajętość pamięci),
-		\item bezpieczeństwa (np. zabezpieczenia kompilatora, narzędzia do
-		      statycznej analizy),
-		\item udogodnień programisty (np. dostępność bibliotek, łatwość
-		      użytkowania systemu budowania).
-	\end{itemize}
-
-	Wybrane języki do analizy: \C{} (\CLogo{}), \Rust{} (\RustLogo{}), \Zig{} (\ZigLogo{}).
-\end{frame}
-
-\section{Zakres pracy}
-
-\begin{frame}
-	\frametitle{Zakres pracy}
-	\begin{enumerate}
-		\item Opracowanie metod i metryk porównania języków. \label{item:methods}
-		\item Implementacja zbioru przykładowych układów elektronicznych oraz
-		      programów w każdym z rozważanych języków:
-		      \begin{enumerate}[A]
-			      \item kontrola diody LED,
-			      \item kontrola silnika za pomocą potencjometru,
-			      \item regulacja PID obrotów silnika z komunikacją
-			            protokołem \linebreak \Modbus{},
-			      \item regulacja DMC obrotów silnika z komunikacją
-			            protokołem \linebreak \Modbus{}.
-		      \end{enumerate}
-		      Realizacja w wersji z systemem operacyjnym oraz bez.
-		\item Zastosowanie metod z pkt. \ref{item:methods} do każdego z
-		      programów.
-		\item Zestawienie wyników porównania (w postaci tabel, wykresów).
-	\end{enumerate}
-\end{frame}
+% \frame{\tableofcontents\frametitle{Plan prezentacji}}
 
 \section{Motywacja}
 
@@ -170,30 +130,83 @@ Politechnika Warszawska}
 	\end{columns}
 \end{frame}
 
-\section{Osiągnięcia}
+\section{Cele pracy}
 
 \begin{frame}
-	\frametitle{Osiągnięcia}
+	\frametitle{Cele pracy}
+	Porównanie ilościowe i jakościowe języków w praktycznych
+	zastosowaniach dla systemów wbudowanych pod kątem:
+
+	\begin{itemize}
+		\item wydajności (np. czas wykonania, zajętość pamięci),
+		\item bezpieczeństwa (np. zabezpieczenia kompilatora, narzędzia do
+		      statycznej analizy),
+		\item udogodnień programisty (np. dostępność bibliotek, łatwość
+		      użytkowania systemu budowania).
+	\end{itemize}
+
+	Wybrane języki do analizy: \C{} (\CLogo{}), \Rust{} (\RustLogo{}), \Zig{} (\ZigLogo{}).
+\end{frame}
+
+\section{Zakres pracy i osiągnięcia}
+
+\begin{frame}
+	\frametitle{Zakres pracy i osiągnięcia}
 	\begin{enumerate}
-		\item Opracowanie miar ilościowych do porównywania języków, w tym:
+		\item {\color{gray} Opracowanie metod i metryk porównania języków, w tym:
+		      \label{item:methods}}
 		      \begin{itemize}
+			      \color{gray}
 			      \item rozszerzenie biblioteki \Lizard{} o wsparcie dla
 			            języka \Zig{}.
 		      \end{itemize}
-		\item Implementacja programów przykładowych (w wersji z systemem
-		      operacyjnym):
+		\item Implementacja zbioru przykładowych układów elektronicznych oraz
+		      programów w każdym z rozważanych języków:
 		      \begin{enumerate}[A]
-			      \item kontrola diody LED (\CLogo{}, \RustLogo{}, \ZigLogo{}),
-			      \item kontrola silnika za pomocą potencjometru
-			            (\CLogo{}, \RustLogo{}, \ZigLogo{}),
-			      \item regulacja PID obrotów silnika z komunikacją
-			            protokołem \linebreak \Modbus{} (\RustLogo{}).
-			            \label{item:controller}
+			      \item {\color{gray} kontrola diody LED \; \CLogo{}\checkmark{}
+			            \RustLogo{}\checkmark{} \ZigLogo{}\checkmark{},}
+			      \item {\color{gray} kontrola silnika za pomocą potencjometru \;
+			            \CLogo{}\checkmark{} \RustLogo{}\checkmark{}
+			            \ZigLogo{}\checkmark{},}
+			      \item {\color{gray} regulacja PID obrotów silnika z komunikacją
+			            protokołem \linebreak \Modbus{} \; \CLogo{}\checkmark{}
+			            \RustLogo{}\checkmark,} \label{item:controller-start}
+			      \item regulacja DMC obrotów silnika z komunikacją
+			            protokołem \linebreak \Modbus{}. \label{item:controller-end}
 		      \end{enumerate}
-		\item Realizacja układów do wykonania powyższych zadań.
-		\item Implementacja panelu sterowania regulatorem z zadania \ref{item:controller}.
+		      Realizacja w wersji z {\color{gray} systemem operacyjnym} oraz bez.
+		\item {\color{gray} Implementacja panelu sterowania regulatorem z zadań
+		      \ref{item:controller-start}-\ref{item:controller-end}.}
+		\item Zastosowanie metod z pkt. \ref{item:methods} do każdego z
+		      programów.
+		\item Zestawienie wyników porównania (w postaci tabel, wykresów).
 	\end{enumerate}
 \end{frame}
+
+% \section{Osiągnięcia}
+%
+% \begin{frame}
+% 	\frametitle{Osiągnięcia}
+% 	\begin{enumerate}
+% 		\item Opracowanie miar ilościowych do porównywania języków, w tym:
+% 		      \begin{itemize}
+% 			      \item rozszerzenie biblioteki \Lizard{} o wsparcie dla
+% 			            języka \Zig{}.
+% 		      \end{itemize}
+% 		\item Implementacja programów przykładowych (w wersji z systemem
+% 		      operacyjnym):
+% 		      \begin{enumerate}[A]
+% 			      \item kontrola diody LED (\CLogo{}, \RustLogo{}, \ZigLogo{}),
+% 			      \item kontrola silnika za pomocą potencjometru
+% 			            (\CLogo{}, \RustLogo{}, \ZigLogo{}),
+% 			      \item regulacja PID obrotów silnika z komunikacją
+% 			            protokołem \linebreak \Modbus{} (\RustLogo{}).
+% 			            \label{item:controller}
+% 		      \end{enumerate}
+% 		\item Realizacja układów do wykonania powyższych zadań.
+% 		\item Implementacja panelu sterowania regulatorem z zadania \ref{item:controller}.
+% 	\end{enumerate}
+% \end{frame}
 
 \section{Plan przyszłych prac}
 
@@ -201,16 +214,15 @@ Politechnika Warszawska}
 	\frametitle{Plan przyszłych prac}
 
 	\begin{enumerate}
-		\item {\color{gray} Implementacja programów przykładowych (w wersji z
-		      systemem operacyjnym):} \label{item:tasks-no-os}
+		\item Implementacja programów przykładowych (w wersji z
+		      systemem operacyjnym): \label{item:tasks-no-os}
 		      \begin{enumerate}[A]
 			      \setcounter{enumii}{2}
-			      \item \textbf{marzec:} {\color{gray}regulacja PID obrotów
-				            silnika z komunikacją protokołem \Modbus{}} (\CLogo{},
-			            \ZigLogo{}),
+			      \item \textbf{marzec:} regulacja PID obrotów silnika z komunikacją
+			            protokołem \Modbus{} \; \ZigLogo{},
 			      \item \textbf{marzec:} regulacja DMC obrotów silnika z
-			            komunikacją protokołem \Modbus{} (\CLogo{}, \RustLogo{},
-			            \ZigLogo{}),
+			            komunikacją protokołem \Modbus{} \; \CLogo{}\, \RustLogo{}\,
+			            \ZigLogo{}.
 		      \end{enumerate}
 		      % \item {\color{gray} Opracowanie miar ilościowych do porównywania języków.}
 		      % \item Implementacja programów przykładowych (w wersji z systemem
