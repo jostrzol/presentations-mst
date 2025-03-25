@@ -38,3 +38,11 @@ godbolt
 zadanie programowania kwadratowego
 zadanie z nieliniową optymalizacją
 modbus TCP
+
+## Konsultacja 25.03.2025
+
+Wykresy StackOverflow:
+* odfiltrować proste pytania typu how-to od faktycznych problemów/błędów
+* 30 top tagów per język
+
+Rozwiązywanie równań liniowych: osqp
