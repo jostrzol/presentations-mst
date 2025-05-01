@@ -53,3 +53,17 @@ Raspberry:
 0.02, 2, 0.3
 Esp32:
 0.007, 0.65, 0.5
+
+## Konsultacje 28.04
+
+slajd:
+1. motywacja
+2. dowód problemów z c (embedded tagi?)
+3. przedstawienie języków + kilka dla porównania (rust -> linux)
+4. cel - w konkretnych warunkach na konkretnych przykładach
+5. co c robi źle (odpowedź na to jak c działa) [1-2 slajdy na język, skrótowo]
+6. scenariusze testowe, pod jakim kątem, założenia (uspójnianiące środ test.: poziom optymalizacji, wszędzie idf.) (+granat zaczepny?) [ze 3],
+7. skupiamy się na 1 scenariusze, opis programu + stanowisko
+8. kawałki kodu, kluczowe fragmenty kodu (timery + pid?)
+9. wykresy
+10. wnioski
