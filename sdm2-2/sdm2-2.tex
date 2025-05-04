@@ -55,7 +55,8 @@
 \newcommand{\Zig}{\emph{Zig}}
 \newcommand{\ZigLogo}{\raisebox{-0.25\totalheight}{\includegraphics[height=1.8\fontcharht\font`\B]{img/zig-logo.png}}}
 
-\newcommand{\Modbus}{\emph{MODBUS\textsuperscript{\copyright}}}
+\newcommand{\Modbus}{\emph{Modbus}}
+% \newcommand{\Modbus}{\emph{MODBUS\textsuperscript{\copyright}}}
 \newcommand{\Lizard}{\lstinline{lizard}}
 
 \newcommand{\IR}{\bbold R}
@@ -80,6 +81,8 @@
 \setminted{
     breaklines=true,
     tabsize=2,
+    % bgcolor=lightgray,
+    frame=single,
 }
 
 \newcommand{\ttbf}[1]{{\tt \textbf{#1}}}
@@ -120,7 +123,7 @@
 
 \frame{\titlepage}
 
-% \frame{\tableofcontents\frametitle{Plan prezentacji}}
+\frame{\tableofcontents\frametitle{Plan prezentacji}}
 
 \section{Motywacja}
 
@@ -207,8 +210,8 @@
 		      \end{itemize}
 		\item Wartość zerowa (\emph{null safety}) % top 21 CWE
 		\item Makra
-		\item System budowania, menadżer pakietów
-		\item Obsłga błedów
+		\item System budowania, menedżer pakietów
+		\item Obsługa błedów
 		\item Brak struktur/funkcji generycznych
 	\end{itemize}
 \end{frame}
@@ -280,8 +283,8 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 				\item[\checkmark{}] Usprawnienia w zarządzaniu pamięcią
 				\item[\checkmark{}] Obliczenia w czasie kompilacji
 				      \begin{itemize}
-					      \item[x] \sout{makra}
-					      \item[x] \sout{strukt. generyczne}
+					      \item \sout{makra}
+					      \item \sout{strukt. generyczne}
 				      \end{itemize}
 				\item[\checkmark{}] \mintinline{zig}{@cInclude("modbus.h")}
 			\end{itemize}
@@ -297,7 +300,8 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 
 		\begin{column}{.60\textwidth}
 			\begin{minted}{zig}
-fn List(comptime T: type) type {
+fn List(comptime T: type) type
+{
     return struct {
         items: []T,
         len: usize,
@@ -327,11 +331,41 @@ var list = List(i32){
 	\end{columns}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Porównanie zapytań (1/3)}
+
+	\begin{figure}
+		\includegraphics[width=0.8\linewidth]{img/plots/issues-0-totals.pdf}
+		\caption{Łączna liczność zapytań z serwisu StackOverflow}
+		\centering
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Porównanie zapytań (2/3)}
+
+	\begin{figure}
+		\includegraphics[width=\linewidth]{img/plots/issues-1.pdf}
+		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów}
+		\centering
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Porównanie zapytań (3/3)}
+
+	\begin{figure}
+		\includegraphics[width=\linewidth]{img/plots/issues-2.pdf}
+		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów}
+		\centering
+	\end{figure}
+\end{frame}
+
 \section{Cele pracy}
 
 \begin{frame}
 	\frametitle{Cel pracy}
-	Porównanie ilościowe i jakościowe języków w praktycznych
+	Porównanie ilościowe i jakościowe wybranych języków w praktycznych
 	zastosowaniach dla systemów wbudowanych pod kątem:
 
 	\begin{itemize}
@@ -346,28 +380,28 @@ var list = List(i32){
 \begin{frame}
 	\frametitle{Scenariusze testowe}
 	\begin{enumerate}
-		\item kontrola diody LED (,,stroboskop'')
+		\item Kontrola diody LED (,,stroboskop''):
 		      \begin{itemize}
-			      \item ustawienie środowiska, interakcja z modułem GPIO
+			      \item ustawienie środowiska, interakcja z modułem GPIO.
 		      \end{itemize}
-		\item kontrola silnika za pomocą potencjometru
+		\item Kontrola silnika za pomocą potencjometru:
 		      \begin{itemize}
-			      \item interakcja z modułami: ADC oraz PWM
+			      \item interakcja z modułami: ADC oraz PWM.
 		      \end{itemize}
-		\item regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}
+		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
 		      \begin{itemize}
-			      \item interakcja z modułami sieciowymi i bilbioteką serwera \Modbus{}
-			      \item rzetelny podział czasu procesora
-			      \item realne obliczenia
-			      \item dodatkowo potrzebny klient \Modbus{}
+			      \item interakcja z modułami sieciowymi i bilbioteką serwera \Modbus{},
+			      \item precyzyjny podział czasu procesora,
+			      \item realne obliczenia,
+			      \item dodatkowo potrzebny klient \Modbus{}.
 		      \end{itemize}
 	\end{enumerate}
 
-	Realizacja na 2 mikrokontrolerach:
+	Realizacja na dwóch mikrokontrolerach:
 	\begin{multicols}{2}
 		\begin{itemize}
-			\item \Rpi{} (+RPI OS)
-			\item \Esp{} (+FreeRTOS)
+			\item \Rpi{} (+RPI OS),
+			\item \Esp{} (+FreeRTOS).
 		\end{itemize}
 	\end{multicols}
 \end{frame}
@@ -393,17 +427,9 @@ var list = List(i32){
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\linewidth}
-			\begin{tikzpicture}[remember picture,overlay]
-				\tikzset{every node/.style={inner sep=3pt}}
-				\draw[red, <-] ([yshift=0.5em]pic cs:func) -- ++(135:.5)
-				node[draw,red,circle,font=\small,above left] {+1};
-				\draw[red, <-] ([yshift=0.2em,xshift=-0.1em]pic cs:whilee) -- ++(180:.5)
-				node[draw,red,circle,font=\small,left] {+1};
-				\draw[red, <-] ([yshift=0.2em,xshift=-0.1em]pic cs:iff) -- ++(180:.5)
-				node[draw,red,circle,font=\small,left] {+1};
-				\draw[red, <-] (pic cs:and) -- ++(-45:.5)
-				node[draw,red,circle,font=\small,below right] {+1};
-			\end{tikzpicture}
+
+			\vspace{\bigskipamount}
+
 			\begin{minted}[escapeinside=??]{c}
 void ?\tikzmark{func}?func(int a, int c) {
 	?\tikzmark{whilee}?while (TRUE) {
@@ -414,11 +440,23 @@ void ?\tikzmark{func}?func(int a, int c) {
 }
 			\end{minted}
 
-			\vpsace{\bigskipamount}
+			\begin{tikzpicture}[remember picture,overlay]
+				\tikzset{every node/.style={inner sep=2pt}}
+				\draw[red, <-] ([yshift=0.5em]pic cs:func) -- ++(135:.5)
+				node[draw,red,fill=white,circle,font=\small,above left] {+1};
+				\draw[red, <-] ([yshift=0.2em,xshift=-0.1em]pic cs:whilee) -- ++(180:.5)
+				node[draw,red,fill=white,circle,font=\small,left] {+1};
+				\draw[red, <-] ([yshift=0.2em,xshift=-0.1em]pic cs:iff) -- ++(180:.5)
+				node[draw,red,fill=white,circle,font=\small,left] {+1};
+				\draw[red, <-] (pic cs:and) -- ++(-45:.5)
+				node[draw,red,fill=white,circle,font=\small,below right] {+1};
+			\end{tikzpicture}
+
 			\begin{align*}
 				CNN(func)  & = 1+1+1+1 = 4 \\
 				CNN'(func) & = 3
 			\end{align*}
+
 		\end{column}
 	\end{columns}
 
@@ -474,9 +512,8 @@ void ?\tikzmark{func}?func(int a, int c) {
 	\frametitle{Fragmenty kodu 1/2 -- \CLogo{}}
 	\begin{minted}{c}
 esp_err_t err = nvs_flash_init();
-if (err != ESP_OK) {
+if (err != ESP_OK)
 	return err;
-}
 
 err = esp_event_loop_create_default();
 if (err != ESP_OK) {
@@ -630,8 +667,6 @@ pub fn read_phase(&mut self) -> Result<()> {
 		\item Analiza i sporządzenie dokumentu
 	\end{itemize}
 \end{frame}
-
-\section{Wnioski}
 
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
