@@ -141,18 +141,37 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Problemy z \CLogo{}}
+	\frametitle{Trudności w \CLogo{} 1/2}
 
 	\begin{columns}
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/top-tags-c.pdf}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{}}
+			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{} \cite{so-db}}
 			\centering
 		\end{figure}
 	\end{columns}
 
 \end{frame}
+
+\begin{frame}
+	\frametitle{Trudności w \CLogo{} 2/2}
+
+	\begin{itemize}
+		\item Zarządzanie pamięcią:
+		      \begin{itemize}
+			      \item Użycie po zwolnieniu (\emph{use after free}, \emph{double free}) % top 8 CWE
+			      \item Przepełnienie bufora (\emph{buffer overflow}) % top 2,6 CWE
+			      \item Jednoczesny dostęp
+		      \end{itemize}
+		\item Wartość zerowa (\emph{null safety}) % top 21 CWE
+		\item Makra
+		\item System budowania, menedżer pakietów
+		\item Obsługa błedów
+		\item Brak struktur/funkcji generycznych
+	\end{itemize}
+\end{frame}
+
 
 \section{Wprowadzenie}
 
@@ -198,24 +217,6 @@
 	\end{block}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Trudności w \CLogo{}}
-
-	\begin{itemize}
-		\item Zarządzanie pamięcią:
-		      \begin{itemize}
-			      \item Użycie po zwolnieniu (\emph{use after free}, \emph{double free}) % top 8 CWE
-			      \item Przepełnienie bufora (\emph{buffer overflow}) % top 2,6 CWE
-			      \item Jednoczesny dostęp
-		      \end{itemize}
-		\item Wartość zerowa (\emph{null safety}) % top 21 CWE
-		\item Makra
-		\item System budowania, menedżer pakietów
-		\item Obsługa błedów
-		\item Brak struktur/funkcji generycznych
-	\end{itemize}
-\end{frame}
-
 \begin{frame}[containsverbatim]
 	\frametitle{\RustLogo{} Rust 1/2}
 
@@ -225,6 +226,7 @@
 				\item[\checkmark{}] Zarządzanie pamięcią $\rightarrow$ \emph{,,Borrow checker''}
 				\item[\checkmark{}] \Cargo{} -- nowoczesny system budowania
 				\item[\checkmark{}] Bezpieczniejsze makra
+				      % \item[\checkmark{}] Wartość zerowa, obsługa błędów, struktury generyczne
 			\end{itemize}
 
 			\vspace{\bigskipamount}
@@ -267,7 +269,7 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/top-tags-rust.pdf}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Rust{}}
+			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Rust{} \cite{so-db}}
 			\centering
 		\end{figure}
 	\end{columns}
@@ -279,7 +281,7 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 	\begin{columns}
 		\begin{column}{.50\textwidth}
 			\begin{itemize}
-				\item[\checkmark{}] Prosty i spójny
+				% \item[\checkmark{}] Prosty i spójny
 				\item[\checkmark{}] Usprawnienia w zarządzaniu pamięcią
 				\item[\checkmark{}] Obliczenia w czasie kompilacji
 				      \begin{itemize}
@@ -325,38 +327,38 @@ var list = List(i32){
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/top-tags-zig.pdf}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Zig{}}
+			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Zig{} \cite{so-db}}
 			\centering
 		\end{figure}
 	\end{columns}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Porównanie zapytań (1/3)}
+% \begin{frame}
+% 	\frametitle{Porównanie zapytań (1/3)}
+%
+% 	\begin{figure}
+% 		\includegraphics[width=0.8\linewidth]{img/plots/issues-0-totals.pdf}
+% 		\caption{Łączna liczność zapytań z serwisu StackOverflow \cite{so-db}}
+% 		\centering
+% 	\end{figure}
+% \end{frame}
 
-	\begin{figure}
-		\includegraphics[width=0.8\linewidth]{img/plots/issues-0-totals.pdf}
-		\caption{Łączna liczność zapytań z serwisu StackOverflow}
-		\centering
-	\end{figure}
-\end{frame}
-
 \begin{frame}
-	\frametitle{Porównanie zapytań (2/3)}
+	\frametitle{Porównanie zapytań (1/2)}
 
 	\begin{figure}
 		\includegraphics[width=\linewidth]{img/plots/issues-1.pdf}
-		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów}
+		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
 		\centering
 	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Porównanie zapytań (3/3)}
+	\frametitle{Porównanie zapytań (2/2)}
 
 	\begin{figure}
 		\includegraphics[width=\linewidth]{img/plots/issues-2.pdf}
-		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów}
+		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
 		\centering
 	\end{figure}
 \end{frame}
@@ -369,41 +371,10 @@ var list = List(i32){
 	zastosowaniach dla systemów wbudowanych pod kątem:
 
 	\begin{itemize}
-		\item wydajności (np. czas wykonania, zajętość pamięci),
-		\item bezpieczeństwa (np. zabezpieczenia kompilatora, narzędzia do
-		      statycznej analizy),
-		\item produktywności (np. dostępność bibliotek, łatwość
-		      użytkowania systemu budowania).
+		\item wydajności,
+		\item bezpieczeństwa,
+		\item produktywności.
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Scenariusze testowe}
-	\begin{enumerate}
-		\item Kontrola diody LED (,,stroboskop''):
-		      \begin{itemize}
-			      \item ustawienie środowiska, interakcja z modułem GPIO.
-		      \end{itemize}
-		\item Kontrola silnika za pomocą potencjometru:
-		      \begin{itemize}
-			      \item interakcja z modułami: ADC oraz PWM.
-		      \end{itemize}
-		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
-		      \begin{itemize}
-			      \item interakcja z modułami sieciowymi i bilbioteką serwera \Modbus{},
-			      \item precyzyjny podział czasu procesora,
-			      \item realne obliczenia,
-			      \item dodatkowo potrzebny klient \Modbus{}.
-		      \end{itemize}
-	\end{enumerate}
-
-	Realizacja na dwóch mikrokontrolerach:
-	\begin{multicols}{2}
-		\begin{itemize}
-			\item \Rpi{} (+RPI OS),
-			\item \Esp{} (+FreeRTOS).
-		\end{itemize}
-	\end{multicols}
 \end{frame}
 
 \begin{frame}[containsverbatim]
@@ -460,6 +431,35 @@ void ?\tikzmark{func}?func(int a, int c) {
 		\end{column}
 	\end{columns}
 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Scenariusze testowe}
+	\begin{enumerate}
+		\item Kontrola diody LED (,,stroboskop''):
+		      \begin{itemize}
+			      \item ustawienie środowiska, interakcja z modułem GPIO.
+		      \end{itemize}
+		\item Kontrola silnika za pomocą potencjometru:
+		      \begin{itemize}
+			      \item interakcja z modułami: ADC oraz PWM.
+		      \end{itemize}
+		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
+		      \begin{itemize}
+			      \item interakcja z modułami sieciowymi i bilbioteką serwera \Modbus{},
+			      \item precyzyjny podział czasu procesora,
+			      \item realne obliczenia.
+			            % \item dodatkowo potrzebny klient \Modbus{}.
+		      \end{itemize}
+	\end{enumerate}
+
+	Realizacja na dwóch mikrokontrolerach:
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item \Rpi{} (+RPI OS),
+			\item \Esp{} (+FreeRTOS).
+		\end{itemize}
+	\end{multicols}
 \end{frame}
 
 \begin{frame}
@@ -575,7 +575,7 @@ esp_err_t read_phase(controller_t *self) {
 		self->is_close = true;
 		*ringbuffer_back(self->revolutions) += 1;
 	} else if (value > treshold_far && self->is_close){
-		self->state.is_close = false;
+		self->is_close = false;
 	}
 
 	return ESP_OK;
