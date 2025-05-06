@@ -67,3 +67,12 @@ slajd:
 8. kawałki kodu, kluczowe fragmenty kodu (timery + pid?)
 9. wykresy
 10. wnioski
+
+## Próbna obrona 05.05
+
+1. Literówki?
+2. Cel przesunąć wcześniej
+3. Jednolite kolory na slajdach
+4. Ankieta?
+5. Metryki statyczne -- liczby nad słupkami
+6. Metryki dynamiczne -- wykres pudełkowy
