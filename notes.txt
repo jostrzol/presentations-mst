@@ -76,3 +76,18 @@ slajd:
 4. Ankieta?
 5. Metryki statyczne -- liczby nad słupkami
 6. Metryki dynamiczne -- wykres pudełkowy
+7. Bezpieczeństwo != mniejsza podatność (/niezawodność/mniejsza wrażliwość na błędy prog./)
+8. Rozwinąć skróty (GPIO, ADC, PWM)
+9. Liczba iteracji slajd 26
+
+1. Wywalić agendę
+2. Szybciej wstęp
+3. Konkretniej o kodzie (zwrócenie uwagi na problem):
+    * kod w 1 języku
+    * jednorazowe skrypty
+    * z 1 strony wyjaśnić język, z 2 nie przytłoczyć
+    * upchnąć na 1 slajdzie diffa (\pause, poszczególne fragmenty są podświetlone a reszta wyszarzona)
+4. Przygotować przemowę
+5. Zbyt dużo czasu na slajd
+6. Odsunąć wykresy na 26 + KB na prawej
+7. jednolite/różne wzory na wykresach w sl 26
