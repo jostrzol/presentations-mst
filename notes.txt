@@ -91,3 +91,16 @@ slajd:
 5. Zbyt dużo czasu na slajd
 6. Odsunąć wykresy na 26 + KB na prawej
 7. jednolite/różne wzory na wykresach w sl 26
+
+## 27.05.2025
+
+* ludzie są konserwatywni, i trudno ich przekonać nawet ulepszeniami w stosunku
+  do c
+* "nie opłaca się" rozważać nowych języków, pomimo że często byłyby odpowiedzią
+  na zapotrzebowania
+* ludzie się zrazili do Rusta, po części przez agresywne błędy kompilacji
+* brak wyraźnych problemów z zarządzaniem pamięcią i potrzebą certyfikacji
+* ważny real-time performance
+* ludzie są zadowoleni z tego w jaki sposób wygląda ich obecne środowisko
+  rozwojowe
+* jak dużo z tych ludzi pracuje solo?
