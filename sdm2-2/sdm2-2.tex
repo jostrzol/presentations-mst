@@ -125,6 +125,20 @@
 
 \frame{\tableofcontents\frametitle{Plan prezentacji}}
 
+\section{Cele pracy}
+
+\begin{frame}
+	\frametitle{Cel pracy}
+	Porównanie ilościowe i jakościowe wybranych języków w praktycznych
+	zastosowaniach dla systemów wbudowanych pod kątem:
+
+	\begin{itemize}
+		\item wydajności,
+		\item niezawodności,
+		\item produktywności.
+	\end{itemize}
+\end{frame}
+
 \section{Motywacja}
 
 \begin{frame}
@@ -146,7 +160,7 @@
 	\begin{columns}
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags-c.pdf}
+			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c.pdf}
 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{} \cite{so-db}}
 			\centering
 		\end{figure}
@@ -183,7 +197,7 @@
 			\RustLogo{} \textbf{\Rust{}}
 			\begin{itemize}
 				\item Wydajność
-				\item Bezpieczeństwo
+				\item Niezawodność
 				\item Produktywność
 			\end{itemize}
 			%
@@ -268,7 +282,7 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 	\begin{columns}
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags-rust.pdf}
+			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-rust.pdf}
 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Rust{} \cite{so-db}}
 			\centering
 		\end{figure}
@@ -326,7 +340,7 @@ var list = List(i32){
 	\begin{columns}
 		\column{\dimexpr\paperwidth-10pt}
 		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags-zig.pdf}
+			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-zig.pdf}
 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Zig{} \cite{so-db}}
 			\centering
 		\end{figure}
@@ -347,7 +361,7 @@ var list = List(i32){
 	\frametitle{Porównanie zapytań (1/2)}
 
 	\begin{figure}
-		\includegraphics[width=\linewidth]{img/plots/issues-1.pdf}
+		\includegraphics[width=\linewidth]{img/plots/issues/1.pdf}
 		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
 		\centering
 	\end{figure}
@@ -357,24 +371,10 @@ var list = List(i32){
 	\frametitle{Porównanie zapytań (2/2)}
 
 	\begin{figure}
-		\includegraphics[width=\linewidth]{img/plots/issues-2.pdf}
+		\includegraphics[width=\linewidth]{img/plots/issues/2.pdf}
 		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
 		\centering
 	\end{figure}
-\end{frame}
-
-\section{Cele pracy}
-
-\begin{frame}
-	\frametitle{Cel pracy}
-	Porównanie ilościowe i jakościowe wybranych języków w praktycznych
-	zastosowaniach dla systemów wbudowanych pod kątem:
-
-	\begin{itemize}
-		\item wydajności,
-		\item bezpieczeństwa,
-		\item produktywności.
-	\end{itemize}
 \end{frame}
 
 \begin{frame}[containsverbatim]
@@ -485,7 +485,7 @@ void ?\tikzmark{func}?func(int a, int c) {
 	\frametitle{Scenariusz\BeamerEnum{\enumiii} -- regulator PID (schemat)}
 
 	\begin{figure}
-		\includegraphics[trim={0 1cm 0 0},clip,height=0.7\textheight]{../circuits/out/3-pid-bm-circuit.pdf}
+		\includegraphics[trim={0 1cm 0 0},clip,height=0.7\textheight]{../circuits/out/3-pid-bm.pdf}
 		\caption{Schemat połączenia scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
 		\centering
 	\end{figure}
@@ -623,7 +623,7 @@ pub fn read_phase(&mut self) -> Result<()> {
 \begin{frame}
 	\frametitle{Metryki statyczne}
 	\begin{figure}
-		\includegraphics[height=0.8\textheight]{img/plots/3-pid-bm.pdf}
+		\includegraphics[height=0.8\textheight]{img/plots/metrics/3-pid-bm.pdf}
 		\centering
 		\caption{Metryki statyczne scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
 	\end{figure}
@@ -634,7 +634,7 @@ pub fn read_phase(&mut self) -> Result<()> {
 	\begin{columns}
 		\begin{column}{\dimexpr\paperwidth-10pt}
 			\begin{figure}
-				\includegraphics[width=\linewidth]{img/plots/3-pid-bm-perf.pdf}
+				\includegraphics[width=\linewidth]{img/plots/metrics/3-pid-bm-perf.pdf}
 				\centering
 				\caption{Metryki dynamiczne scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
 			\end{figure}
@@ -648,7 +648,7 @@ pub fn read_phase(&mut self) -> Result<()> {
 	\frametitle{Wnioski}
 	Nowoczesne języki programowania na systemy wbudowane:
 	\begin{itemize}
-		\item są bezpieczniejsze i wygodniejsze od \CLogo{}
+		\item mniej podatne na błędy niż \CLogo{}
 		\item potrafią konkurować wydajnością z \CLogo{}
 		\item dobrze współpracują z \CLogo{}
 	\end{itemize}

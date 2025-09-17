@@ -1,4 +1,36 @@
 version: 3
+vars:
+  PROJ_DIR: '../proj'
+  PROJ_PLOT_DIR: '{{joinPath .PROJ_DIR "analyze/out/plots"}}'
+  TEX_PLOT_DIR: 'sdm2-2/img/plots'
+  PLOT_SUBDIRS: &plot_subdirs [., issues, metrics, metrics-dyn, survey, top-tags]
 tasks:
   open:
     cmd: sh -c 'xdg-open ./sdm2-2/sdm2-2.pdf &'
+  # plots
+  copy-plots-all:
+    deps:
+      - for: {var: PLOT_SUBDIRS}
+        task: copy-plots
+        vars: {SUBDIR: '{{.ITEM}}'}
+  copy-plots:
+    requires:
+      vars:
+        - {name: SUBDIR, enum: *plot_subdirs}
+    vars:
+      SRC_DIR: '{{joinPath .PROJ_PLOT_DIR .SUBDIR}}'
+      DST_DIR: '{{joinPath .TEX_PLOT_DIR .SUBDIR}}/'
+    sources: ['{{joinPath .SRC_DIR "*.pdf"}}']
+    generates: ['{{joinPath .DST_DIR "*.pdf"}}']
+    label: "copy-plots:{{.SUBDIR}}"
+    deps:
+      - task: dir-exists
+        vars: {DIR: '{{.DST_DIR}}'}
+    cmds:
+      - for: sources
+        cmd: cp {{.ITEM}} {{.DST_DIR}}
+  dir-exists:
+    internal: true
+    requires:
+      vars: [DIR]
+    dir: '{{.DIR}}'
