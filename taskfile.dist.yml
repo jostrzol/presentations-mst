@@ -1,0 +1,4 @@
+version: 3
+tasks:
+  open:
+    cmd: sh -c 'xdg-open ./sdm2-2/sdm2-2.pdf &'
