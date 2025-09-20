@@ -13,8 +13,9 @@
 \setbeamercolor{background canvas}{bg=}
 \setbeamercovered{transparent=30}
 \setlength{\parskip}{\medskipamount} 
-
+\addtobeamertemplate{footnote}{\hskip -2em}{}
 % \setbeamerfont{footnote}{size=\tiny}
+
 \usepackage{beamerthemesplit}
 \usepackage{multicol}
 \usepackage{lmodern}
@@ -259,7 +260,7 @@
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c-slide.pdf}
 			\captionsetup{margin={1.6cm,0cm}}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{} \cite{so-db}}
+			\caption{Najpopularniejsze tagi zapytań z serwisu \emph{StackOverflow} dla języka \C{} \cite{so-db}}
 			\centering
 		\end{figure}
 	\end{columns}
@@ -350,11 +351,6 @@
 				\item Niezawodność
 				\item Produktywność
 			\end{itemize}
-			%
-			% Oprócz tego
-			% \begin{itemize}
-			% 	\item Unikatowy \emph{,,Borrow checker''}
-			% \end{itemize}
 		\end{column}
 		\begin{column}{.50\textwidth}
 			\ZigLogo{} \textbf{\Zig{}}
@@ -362,7 +358,7 @@
 				\item Prostota % przepływ kontroli, alokacje, brak makr
 				      % \item Jawne alokacje
 				\item Obliczenia w czasie kompilacji
-				\item Interakcja z \C{}/\Cpp{} (FFI)
+				\item Interakcja z \C{}/\Cpp{} (FFI\footnotemark)
 			\end{itemize}
 		\end{column}
 	\end{columns}
@@ -379,6 +375,8 @@
 			\end{itemize}
 		\end{multicols}
 	\end{block}
+	\footnotetext{FFI -- \emph{ang. Foreign Function Interface}, interfejs wołania
+		funkcji innego języka}
 \end{frame}
 
 \begin{frame}[containsverbatim]
@@ -588,11 +586,17 @@ void ?\tikzmark{func}?func(int a, int c) {
 	\begin{enumerate}
 		\item Kontrola diody LED (,,stroboskop''):
 		      \begin{itemize}
-			      \item ustawienie środowiska, interakcja z modułem GPIO.
+			      \item ustawienie środowiska, interakcja z modułem
+			            GPIO\footnote{GPIO -- \eng{General Purpose
+			            Input/Output}, konfigurowalne wyprowadzenia układu.}.
 		      \end{itemize}
 		\item Kontrola silnika za pomocą potencjometru:
 		      \begin{itemize}
-			      \item interakcja z modułami: ADC oraz PWM.
+			      \item interakcja z modułami: ADC\footnote{ADC -- \eng{
+			            Analog/Digital Converter}, konwerter sygnału
+			            analogowego~na cyfrowy.} oraz PWM\footnote{PWM --
+			            \eng{Pulse Width Modulation}, cyfrowa metoda generacji
+			            sygnału~o zadanym napięciu średnim.}.
 		      \end{itemize}
 		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
 		      \begin{itemize}
@@ -1073,6 +1077,7 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 % 	\end{itemize}
 % \end{frame}
 
+% TODO: bibliografia
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
 	\nocite{*}
