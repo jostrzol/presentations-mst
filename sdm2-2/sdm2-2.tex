@@ -11,6 +11,7 @@
     \end{beamercolorbox}%
 }
 \setbeamercolor{background canvas}{bg=}
+\setbeamercovered{transparent=30}
 \setlength{\parskip}{\medskipamount} 
 
 % \setbeamerfont{footnote}{size=\tiny}
@@ -35,6 +36,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{minted}
+\usepackage{subcaption} % pod-rysunki
 \usepackage[style=numeric,backend=biber,sorting=none]{biblatex}
 \usepackage[font=scriptsize,labelformat=empty,justification=centering]{caption}
 \addbibresource{sdm2-2.bib}
@@ -97,6 +99,43 @@
 %   \vfill
 %   \end{frame}
 % }
+\definecolor{background}{RGB}{255, 255, 255}
+\definecolor{codehl}{RGB}{220, 255, 255}
+\newcommand<>{\uncovergraphics}[2][{}]{%
+	% See https://tex.stackexchange.com/a/746137
+	\begin{tikzpicture}[inner sep=0pt, outer sep=0pt]
+	\node[inner sep=0pt, outer sep=0pt] (B) at (0,0)
+ 	{\includegraphics[#1]{#2}};
+	\alt#3{}{%
+	\fill [draw=none, fill=white, fill opacity=0.7] 
+  	(B.south west) rectangle (B.north east);
+	}
+	\end{tikzpicture}%
+}
+
+\newenvironment{multilst}{%
+	\medbreak%
+	\captionsetup{type=listing,position=top,skip=6pt}%
+	% \let\oldcaption\caption%
+	% \renewcommand\caption[1]{\oldcaption{##1}\vspace{-\smallskipamount}}%
+}{}
+
+\newenvironment{lstlogo}[1]{%
+	\noindent%
+	\begin{tikzpicture}%
+		\def\logofile{img/#1-logo.png}%
+		\node[inner sep=0pt] (codebox) \bgroup\ignorespaces%
+		\begin{minipage}{\linewidth}%
+			}{%
+		\end{minipage}%
+		\unskip\egroup;%
+		\node[anchor=north east, opacity=0.2, yshift=1pt] at
+		(codebox.north east) {%
+			\includegraphics[height=3.0\fontcharht\font`\B]{\logofile}%
+		};%
+	\end{tikzpicture}%
+	\pagebreak[2]%
+}
 
 \hypersetup{
    pdftitle={Analiza wybranych języków programowania na systemy wbudowane pod kątem wydajności i niezawodności},
@@ -123,7 +162,7 @@
 
 \frame{\titlepage}
 
-\frame{\tableofcontents\frametitle{Plan prezentacji}}
+% \frame{\tableofcontents\frametitle{Plan prezentacji}}
 
 \section{Cele pracy}
 
@@ -134,9 +173,12 @@
 
 	\begin{itemize}
 		\item wydajności,
-		\item niezawodności,
+		\item niezawodności\footnote{Odporności na błędy programistyczne.},
 		\item produktywności.
 	\end{itemize}
+
+	Dodatkowo -- rozpoznanie opinii programistów systemów wbudowanych na temat
+	języków.
 \end{frame}
 
 \section{Motywacja}
@@ -154,38 +196,146 @@
 	\end{columns}
 \end{frame}
 
+% \begin{frame}
+% 	\frametitle{Języki w systemach wbudowanych}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}
+% 			\includegraphics[width=\linewidth]{img/plots/survey/S2_LANGUAGES_USED-slide.pdf}
+% 			\centering
+% 			\caption{Wyniki ankiety -- języki używane przez programistów systemów wbudowanych.}
+% 		\end{figure}
+% 	\end{columns}
+% \end{frame}
+%
+% \begin{frame}
+% 	\frametitle{Język \CLogo{} w systemach w wbudowanych}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}
+% 			\includegraphics[width=\linewidth]{img/plots/survey/S2_C_CPP_RATIO-slide.pdf}
+% 			\centering
+% 			\caption{Wyniki ankiety -- udział \C{}/\Cpp{} w kodzie systemów wbudowanych.}
+% 		\end{figure}
+% 	\end{columns}
+% \end{frame}
+
+% \begin{frame}
+% 	\frametitle{Trudności w \CLogo{} 1/2}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}
+% 			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c.pdf}
+% 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{} \cite{so-db}}
+% 			\centering
+% 		\end{figure}
+% 	\end{columns
+%
+% \end{frame}
+
 \begin{frame}
-	\frametitle{Trudności w \CLogo{} 1/2}
+	\frametitle{Trudności w \CLogo{}}
 
 	\begin{columns}
-		\column{\dimexpr\paperwidth-10pt}
+		\column{0.5\textwidth}
+		\begin{itemize}
+			\item Zarządzanie pamięcią:
+			      \begin{itemize}
+				      \item Użycie po zwolnieniu (\emph{use after free},
+				            \emph{double free}) % top 8 CWE
+				      \item Przepełnienie bufora (\emph{buffer overflow}) % top 2,6 CWE
+				      \item Jednoczesny dostęp
+			      \end{itemize}
+			\item Wartość zerowa (\emph{null safety}) % top 21 CWE
+			\item Makra
+			\item System budowania, menedżer pakietów
+			\item Obsługa błędów
+			\item Brak struktur/funkcji generycznych
+		\end{itemize}
+		\column{0.5\textwidth}
 		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c.pdf}
+			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c-slide.pdf}
+			\captionsetup{margin={1.6cm,0cm}}
 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \C{} \cite{so-db}}
 			\centering
 		\end{figure}
 	\end{columns}
-
 \end{frame}
 
-\begin{frame}
-	\frametitle{Trudności w \CLogo{} 2/2}
-
-	\begin{itemize}
-		\item Zarządzanie pamięcią:
-		      \begin{itemize}
-			      \item Użycie po zwolnieniu (\emph{use after free},
-			            \emph{double free}) % top 8 CWE
-			      \item Przepełnienie bufora (\emph{buffer overflow}) % top 2,6 CWE
-			      \item Jednoczesny dostęp
-		      \end{itemize}
-		\item Wartość zerowa (\emph{null safety}) % top 21 CWE
-		\item Makra
-		\item System budowania, menedżer pakietów
-		\item Obsługa błędów
-		\item Brak struktur/funkcji generycznych
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Problemy w programowaniu na systemy wbudowane}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}[!ht]
+% 			\centering
+%
+% 			\captionsetup[subfigure]{margin={0.3cm,0cm}}
+%
+% 			\uncover<1> {
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<1>[width=\textwidth]{img/plots/survey/S3_HARDWARE-slide.pdf}
+% 					\caption{Interakcja ze sprzętem.}
+% 				\end{subfigure}
+% 			}
+% 			\hfill
+% 			\uncover<2>{
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<2>[width=\textwidth]{img/plots/survey/S3_PERFORMANCE-slide.pdf}
+% 					\caption{Czas wykonania.}
+% 				\end{subfigure}
+% 			}
+% 			\hfill
+% 			\uncover<2>{
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<2>[width=\textwidth]{img/plots/survey/S3_MEMORY-slide.pdf}
+% 					\caption{Ograniczona pamięć.}
+% 				\end{subfigure}
+% 			}
+%
+% 			\uncover<1>{
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<1>[width=\textwidth]{img/plots/survey/S3_DEBUGGING-slide.pdf}
+% 					\caption{Debugowanie.}
+% 				\end{subfigure}
+% 			}
+% 			\hfill
+% 			\uncover<3>{
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<3>[width=\textwidth]{img/plots/survey/S3_MEMORY_SAFETY-slide.pdf}
+% 					\caption{Podatności pamięci.}
+% 				\end{subfigure}
+% 			}
+% 			\hfill
+% 			\uncover<3>{
+% 				\begin{subfigure}[t]{0.3\textwidth}
+% 					\uncovergraphics<3>[width=\textwidth]{img/plots/survey/S3_TOOLING-slide.pdf}
+% 					\caption{Skomplikowanie narzędzi.}
+% 				\end{subfigure}
+% 			}
+% 			%
+% 			% \begin{subfigure}[t]{0.3\textwidth}
+% 			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_POWER-slide.pdf}
+% 			% 	\caption{Pobór prądu.}
+% 			% \end{subfigure}
+% 			% \hfill
+% 			% \begin{subfigure}[t]{0.3\textwidth}
+% 			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_LEGACY-slide.pdf}
+% 			% 	\caption{Integracja~z istniejącym kodem.}
+% 			% \end{subfigure}
+% 			% \hfill
+% 			% \begin{subfigure}[t]{0.3\textwidth}
+% 			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_CERTIFICATION-slide.pdf}
+% 			% 	\caption{Certyfikacja.}
+% 			% \end{subfigure}
+%
+% 			\caption{Wyniki ankiety -- dotkliwość wybranych problemów~w programowaniu~na systemy wbudowane.}
+% 		\end{figure}
+% 	\end{columns}
+% \end{frame}
 
 \section{Wprowadzenie}
 
@@ -232,12 +382,12 @@
 \end{frame}
 
 \begin{frame}[containsverbatim]
-	\frametitle{\RustLogo{} Rust 1/2}
+	\frametitle{\RustLogo{} Rust}
 
 	\begin{columns}
 		\begin{column}{.50\textwidth}
 			\begin{itemize}
-				\item[\checkmark{}] Zarządzanie pamięcią $\rightarrow$ \emph{,,Borrow checker''}
+				\item[\checkmark{}] Zarządzanie pamięcią $\rightarrow$ \emph{borrow checker}
 				\item[\checkmark{}] \Cargo{} -- nowoczesny system budowania
 				\item[\checkmark{}] Bezpieczniejsze makra
 				      % \item[\checkmark{}] Wartość zerowa, obsługa błędów, struktury generyczne
@@ -276,21 +426,21 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 
 \end{frame}
 
-\begin{frame}
-	\frametitle{\RustLogo{} Rust 2/2}
-
-	\begin{columns}
-		\column{\dimexpr\paperwidth-10pt}
-		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-rust.pdf}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Rust{} \cite{so-db}}
-			\centering
-		\end{figure}
-	\end{columns}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{\RustLogo{} Rust 2/2}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}
+% 			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-rust.pdf}
+% 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Rust{} \cite{so-db}}
+% 			\centering
+% 		\end{figure}
+% 	\end{columns}
+% \end{frame}
 
 \begin{frame}[containsverbatim]
-	\frametitle{\ZigLogo{} Zig 1/2}
+	\frametitle{\ZigLogo{} Zig}
 
 	\begin{columns}
 		\begin{column}{.50\textwidth}
@@ -334,18 +484,18 @@ var list = List(i32){
 
 \end{frame}
 
-\begin{frame}
-	\frametitle{\ZigLogo{} Zig 2/2}
-
-	\begin{columns}
-		\column{\dimexpr\paperwidth-10pt}
-		\begin{figure}
-			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-zig.pdf}
-			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Zig{} \cite{so-db}}
-			\centering
-		\end{figure}
-	\end{columns}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{\ZigLogo{} Zig 2/2}
+%
+% 	\begin{columns}
+% 		\column{\dimexpr\paperwidth-10pt}
+% 		\begin{figure}
+% 			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-zig.pdf}
+% 			\caption{Najpopularniejsze tagi zapytań z serwisu StackOverflow dla języka \Zig{} \cite{so-db}}
+% 			\centering
+% 		\end{figure}
+% 	\end{columns}
+% \end{frame}
 
 % \begin{frame}
 % 	\frametitle{Porównanie zapytań (1/3)}
@@ -357,25 +507,25 @@ var list = List(i32){
 % 	\end{figure}
 % \end{frame}
 
-\begin{frame}
-	\frametitle{Porównanie zapytań (1/2)}
-
-	\begin{figure}
-		\includegraphics[width=\linewidth]{img/plots/issues/1.pdf}
-		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
-		\centering
-	\end{figure}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Porównanie zapytań (2/2)}
-
-	\begin{figure}
-		\includegraphics[width=\linewidth]{img/plots/issues/2.pdf}
-		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
-		\centering
-	\end{figure}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Porównanie zapytań (1/2)}
+%
+% 	\begin{figure}
+% 		\includegraphics[width=\linewidth]{img/plots/issues/1.pdf}
+% 		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
+% 		\centering
+% 	\end{figure}
+% \end{frame}
+%
+% \begin{frame}
+% 	\frametitle{Porównanie zapytań (2/2)}
+%
+% 	\begin{figure}
+% 		\includegraphics[width=\linewidth]{img/plots/issues/2.pdf}
+% 		\caption{Liczność zapytań z serwisu StackOverflow dla wybranych tagów \cite{so-db}}
+% 		\centering
+% 	\end{figure}
+% \end{frame}
 
 \begin{frame}[containsverbatim]
 	\frametitle{Metryki}
@@ -457,218 +607,471 @@ void ?\tikzmark{func}?func(int a, int c) {
 	Realizacja na dwóch mikrokontrolerach:
 	\begin{multicols}{2}
 		\begin{itemize}
-			\item \Rpi{} (+RPI OS),
-			\item \Esp{} (+FreeRTOS).
+			\item \Rpi{}, % (+RPI OS),
+			\item \Esp{}. % (+FreeRTOS).
 		\end{itemize}
 	\end{multicols}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Założenia}
-	\begin{itemize}
-		\item Identyczny układ sprzętowy dla każdego z języków
-		\item Optymalizacje kompilacji dobrane pod metryki:
-		      \begin{itemize}
-			      \item Szybkość wykonania
-			      \item Rozmiar pliku binarnego
-		      \end{itemize}
-		\item Pomiary uruchamiane wielokrotnie
-		\item Czas na ,,rozgrzanie'' pamięci podręcznej
-		\item Wykorzystanie analogicznych/identycznych rozwiązań (np. esp-idf,
-		      sys-fs)
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Założenia}
+% 	\begin{itemize}
+% 		\item Identyczny układ sprzętowy dla każdego z języków
+% 		\item Optymalizacje kompilacji dobrane pod metryki:
+% 		      \begin{itemize}
+% 			      \item Szybkość wykonania
+% 			      \item Rozmiar pliku binarnego
+% 		      \end{itemize}
+% 		\item Pomiary uruchamiane wielokrotnie
+% 		\item Czas na ,,rozgrzanie'' pamięci podręcznej
+% 		\item Wykorzystanie analogicznych/identycznych rozwiązań (np. esp-idf,
+% 		      sys-fs)
+% 	\end{itemize}
+% \end{frame}
 
 \section{Wyniki}
 
-\begin{frame}
-	\frametitle{Scenariusz\BeamerEnum{\enumiii} -- regulator PID (schemat)}
+% \begin{frame}
+% 	\frametitle{Scenariusz\BeamerEnum{\enumiii} -- regulator PID (schemat)}
+%
+% 	\begin{figure}
+% 		\includegraphics[trim={0 1cm 0 0},clip,height=0.7\textheight]{../circuits/out/3-pid-bm.pdf}
+% 		\caption{Schemat połączenia scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
+% 		\centering
+% 	\end{figure}
+% \end{frame}
 
-	\begin{figure}
-		\includegraphics[trim={0 1cm 0 0},clip,height=0.7\textheight]{../circuits/out/3-pid-bm.pdf}
-		\caption{Schemat połączenia scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
-		\centering
-	\end{figure}
+% \begin{frame}
+% 	\frametitle{Scenariusz\BeamerEnum{\enumiii} -- regulator PID (zachowanie)}
+%
+% 	Rdzeń 1 -- regulacja i interakcja ze sprzętem
+% 	\begin{itemize}
+% 		\item faza czytania (1 kHz): czujnik Halla
+% 		\item faza regulacji (10 Hz):
+% 		      \begin{itemize}
+% 			      \item obliczanie sterowania
+% 			      \item odczyt/zapis rejestrów \Modbus{}
+% 		      \end{itemize}
+% 	\end{itemize}
+% 	Rdzeń 2 - interakcja ze światem
+% 	\begin{itemize}
+% 		\item stos sieciowy
+% 		\item obsługa zapytań \Modbus{}
+% 	\end{itemize}
+% \end{frame}
+
+\begin{frame}
+	\frametitle{Ankieta: dominacja \CLogo{}}
+	\begin{columns}
+		\column{\dimexpr\paperwidth-10pt}
+		\begin{figure}[!ht]
+			\centering
+
+			\begin{subfigure}[t]{0.45\textwidth}
+				\includegraphics[width=\textwidth]{img/plots/survey/S2_LANGUAGES_USED-slide.pdf}
+				\captionsetup{margin={2.5cm,0cm}}
+				\caption{Języki w systemach wbudowanych.}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.45\textwidth}
+				\includegraphics[width=\textwidth]{img/plots/survey/S2_C_CPP_RATIO-slide.pdf}
+				\captionsetup{margin={0cm,1cm}}
+				\caption{Udział kodu napisanego w \C{}/\Cpp{}.}
+			\end{subfigure}
+
+			\captionsetup{margin={1.6cm,0cm}}
+			\caption{Wyniki ankiety -- użycie języków w systemach wbudowanych.}
+		\end{figure}
+	\end{columns}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Scenariusz\BeamerEnum{\enumiii} -- regulator PID (zachowanie)}
+	\frametitle{Ankieta: dotkliwość problemów w systemach wbudowanych}
 
-	Rdzeń 1 -- regulacja i interakcja ze sprzętem
-	\begin{itemize}
-		\item faza czytania (1 kHz): czujnik Halla
-		\item faza regulacji (10 Hz):
-		      \begin{itemize}
-			      \item obliczanie sterowania
-			      \item odczyt/zapis rejestrów \Modbus{}
-		      \end{itemize}
-	\end{itemize}
-	Rdzeń 2 - interakcja ze światem
-	\begin{itemize}
-		\item stos sieciowy
-		\item obsługa zapytań \Modbus{}
-	\end{itemize}
+	\begin{columns}
+		\column{\dimexpr\paperwidth-10pt}
+		\begin{figure}[!ht]
+			\centering
+
+			\captionsetup[subfigure]{margin={0.3cm,0cm}}
+
+			\uncover<1> {
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<1>[width=\textwidth]{img/plots/survey/S3_HARDWARE-slide.pdf}
+					\caption{Interakcja ze sprzętem.}
+				\end{subfigure}
+			}
+			\hfill
+			\uncover<2>{
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<2>[width=\textwidth]{img/plots/survey/S3_PERFORMANCE-slide.pdf}
+					\caption{Czas wykonania.}
+				\end{subfigure}
+			}
+			\hfill
+			\uncover<2>{
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<2>[width=\textwidth]{img/plots/survey/S3_MEMORY-slide.pdf}
+					\caption{Ograniczona pamięć.}
+				\end{subfigure}
+			}
+
+			\uncover<1>{
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<1>[width=\textwidth]{img/plots/survey/S3_DEBUGGING-slide.pdf}
+					\caption{Debugowanie.}
+				\end{subfigure}
+			}
+			\hfill
+			\uncover<3>{
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<3>[width=\textwidth]{img/plots/survey/S3_MEMORY_SAFETY-slide.pdf}
+					\caption{Podatności pamięci.}
+				\end{subfigure}
+			}
+			\hfill
+			\uncover<3>{
+				\begin{subfigure}[t]{0.3\textwidth}
+					\uncovergraphics<3>[width=\textwidth]{img/plots/survey/S3_TOOLING-slide.pdf}
+					\caption{Skomplikowanie narzędzi.}
+				\end{subfigure}
+			}
+			%
+			% \begin{subfigure}[t]{0.3\textwidth}
+			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_POWER-slide.pdf}
+			% 	\caption{Pobór prądu.}
+			% \end{subfigure}
+			% \hfill
+			% \begin{subfigure}[t]{0.3\textwidth}
+			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_LEGACY-slide.pdf}
+			% 	\caption{Integracja~z istniejącym kodem.}
+			% \end{subfigure}
+			% \hfill
+			% \begin{subfigure}[t]{0.3\textwidth}
+			% 	\includegraphics[width=\textwidth]{img/plots/survey/S3_CERTIFICATION-slide.pdf}
+			% 	\caption{Certyfikacja.}
+			% \end{subfigure}
+
+			\caption{Wyniki ankiety -- dotkliwość wybranych problemów~w programowaniu~na systemy wbudowane.}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Metryki statyczne: \Esp{}}
+
+	\begin{columns}
+		\column{\dimexpr\paperwidth-10pt}
+		\begin{figure}[!ht]
+			\centering
+
+			\captionsetup[subfigure]{margin={0.3cm,0cm}}
+
+			\uncover<1> {
+				\begin{subfigure}[t]{0.85\textwidth}
+					\uncovergraphics<1>[width=\textwidth]{img/plots/metrics/bin_size-bm-slide.pdf}
+					% \caption{Rozmiar pliku binarnego.}
+				\end{subfigure}
+			}
+
+			\uncover<2>{
+				\begin{subfigure}[t]{0.85\textwidth}
+					\uncovergraphics<2>[width=\textwidth]{img/plots/metrics/ccnp-bm-slide.pdf}
+					% \caption{Zmodyfikowana złożoność cyklometryczna CCN'.}
+				\end{subfigure}
+			}
+
+			\uncover<3>{
+				\begin{subfigure}[t]{0.85\textwidth}
+					\uncovergraphics<3>[width=\textwidth]{img/plots/metrics/n_tokens-bm-slide.pdf}
+					% \caption{Liczba tokenów.}
+				\end{subfigure}
+			}
+
+			\caption{Wartości metryk statycznych dla \Esp{}.}
+		\end{figure}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Metryki dynamiczne: \Esp{}}
+	\begin{columns}
+		\column{\dimexpr\paperwidth-10pt}
+		\begin{figure}[!ht]
+			\centering
+
+			\captionsetup[subfigure]{margin={0.3cm,0cm}}
+
+			\uncover<1> {
+				\begin{subfigure}[t]{0.95\textwidth}
+					\uncovergraphics<1>[width=\textwidth]{img/plots/metrics-dyn/perf-bm-slide.pdf}
+					% \caption{Czas wykonania.}
+				\end{subfigure}
+			}
+
+			\vspace{\bigskipamount}
+
+			\uncover<2>{
+				\begin{subfigure}[t]{0.95\textwidth}
+					\uncovergraphics<2>[width=\textwidth]{img/plots/metrics-dyn/mem-bm-slide.pdf}
+					% \caption{Zużycie pamięci.}
+				\end{subfigure}
+			}
+
+			\caption{Wartości metryk dynamicznych dla \Esp{}.}
+		\end{figure}
+	\end{columns}
 \end{frame}
 
 \begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 1/2 -- \CLogo{}}
-	\begin{minted}{c}
-esp_err_t err = nvs_flash_init();
-if (err != ESP_OK)
-	return err;
+	\frametitle{Różnice w kodzie: propagacja błędów}
 
-err = esp_event_loop_create_default();
+	\begin{lstlogo}{c}
+		\begin{minted}[escapeinside=||,framesep=2pt]{c}
+|\colorbox{codehl}{esp\_err\_t}| read_phase(controller_t *self) {
+	float value;
+	esp_err_t err = read_adc(self, &value);
+	if (err != ESP_OK)
+		return err;
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{zig}
+		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
+fn read_phase(self: *Self) |\colorbox{codehl}{!void}| {
+	const value = try self.read_adc();
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{rust}
+		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
+pub fn read_phase(&mut self) -> |\colorbox{codehl}{Result<()>}| {
+	let value = self.read_adc()?;
+}
+		\end{minted}
+	\end{lstlogo}
+\end{frame}
+
+\begin{frame}[containsverbatim,noframenumbering]
+	\frametitle{Różnice w kodzie: propagacja błędów}
+
+	\begin{lstlogo}{c}
+		\begin{minted}[escapeinside=||,framesep=2pt]{c}
+esp_err_t read_phase(controller_t *self) {
+	|\colorbox{codehl}{float value}|;
+	esp_err_t err = read_adc(self, |\colorbox{codehl}{&value}|);
+	if (err != ESP_OK)
+		return err;
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{zig}
+		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
+fn read_phase(self: *Self) !void {
+	|\colorbox{codehl}{const value}| = try self.read_adc();
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{rust}
+		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
+pub fn read_phase(&mut self) -> Result<()> {
+	|\colorbox{codehl}{let value}| = self.read_adc()?;
+}
+		\end{minted}
+	\end{lstlogo}
+\end{frame}
+
+\begin{frame}[containsverbatim,noframenumbering]
+	\frametitle{Różnice w kodzie: propagacja błędów}
+
+	\begin{lstlogo}{c}
+		\begin{minted}[escapeinside=||,framesep=2pt]{c}
+esp_err_t read_phase(controller_t *self) {
+	float value;
+	|\colorbox{codehl}{esp\_err\_t}| err = read_adc(self, &value);
+	|\colorbox{codehl}{if (err != ESP\_OK)}|
+	|\colorbox{codehl}{    return err;   }|
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{zig}
+		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
+fn read_phase(self: *Self) !void {
+	const value = |\colorbox{codehl}{try}| self.read_adc();
+}
+		\end{minted}
+	\end{lstlogo}
+
+	\begin{lstlogo}{rust}
+		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
+pub fn read_phase(&mut self) -> Result<()> {
+	let value = self.read_adc()|\colorbox{codehl}{?}|;
+}
+		\end{minted}
+	\end{lstlogo}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+	\frametitle{Różnice w kodzie: zarządzanie zasobami}
+	\begin{columns}
+		\begin{column}{0.53\linewidth}
+
+			\begin{lstlogo}{c}
+				\begin{minted}[highlightlines={1}]{c}
+nvs_flash_init();
+err = esp_event_loop();
 if (err != ESP_OK) {
 	nvs_flash_deinit();
 	return err;
 }
+				\end{minted}
+			\end{lstlogo}
+		\end{column}
 
-err = my_mdns_init();
-if (err != ESP_OK) {
-	esp_event_loop_delete_default();
-	nvs_flash_deinit();
-	return err;
-}
-	\end{minted}
-\end{frame}
-
-\begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 1/2 -- \ZigLogo{}}
-	\begin{minted}{zig}
-try idf.nvs_flash_init();
+		\begin{column}{0.53\linewidth}
+			\begin{lstlogo}{zig}
+				\begin{minted}[highlightlines={1}]{zig}
+idf.nvs_flash_init();
 errdefer idf.nvs_flash_deinit();
+try esp_event_loop();
+				\end{minted}
+			\end{lstlogo}
+		\end{column}
+	\end{columns}
 
-try esp_event_loop_create_default();
-errdefer sys.esp_event_loop_delete_default();
-
-const mdns = try MDns.init();
-errdefer mdns.deinit();
-	\end{minted}
-\end{frame}
-
-\begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 1/2 -- \RustLogo{}}
-	\begin{minted}{rust}
-let nvs = EspDefaultNvsPartition::take()?;
-
-let sys_loop = EspSystemEventLoop::take()?;
-
-let mdns = mdns_init()?;
-
-// ... w bibliotece
+	\begin{lstlogo}{rust}
+		\begin{minted}[highlightlines={1}]{rust}
+let nvs = EspNvsPartition::take();
+let sys_loop = EspEventLoop::take()?;
+// W bibliotece...
 impl<T: NvsPartitionId> Drop for EspNvs<T> {
 	fn drop(&mut self) {
 		unsafe { nvs_flash_deinit(self.1); }
 	}
 }
-	\end{minted}
+		\end{minted}
+	\end{lstlogo}
 \end{frame}
 
-\begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 2/2 -- \CLogo{}}
-	\begin{minted}{c}
-esp_err_t read_phase(controller_t *self) {
-	float value;
-	esp_err_t err = read_adc(self, &value);
-	if (err != ESP_OK)
-		return err;
-
-	if (value < treshold_close && !self->is_close) {
-		self->is_close = true;
-		*ringbuffer_back(self->revolutions) += 1;
-	} else if (value > treshold_far && self->is_close){
-		self->is_close = false;
-	}
-
-	return ESP_OK;
-}
-	\end{minted}
-\end{frame}
-
-\begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 2/2 -- \ZigLogo{}}
-	\begin{minted}{zig}
-fn read_phase(self: *Self) !void {
-	const value = try self.read_adc();
-
-	if (value < treshold_close and !self.is_close) {
-		self.is_close = true;
-		self.revolutions.back().* += 1;
-	} else if (value > treshold_far and self.is_close){
-		self.is_close = false;
-	}
-}
-	\end{minted}
-\end{frame}
-
-\begin{frame}[containsverbatim]
-	\frametitle{Fragmenty kodu 2/2 -- \RustLogo{}}
-	\begin{minted}{rust}
-pub fn read_phase(&mut self) -> Result<()> {
-	let value = self.read_adc()?;
-
-	if value < treshold_close && !self.is_close {
-		self.is_close = true;
-		let back = self.revolutions.back_mut();
-		*back += 1;
-	} else if value > treshold_far && self.is_close {
-		self.is_close = false;
-	}
-
-	Ok(())
-}
-	\end{minted}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Metryki statyczne}
-	\begin{figure}
-		\includegraphics[height=0.8\textheight]{img/plots/metrics/3-pid-bm.pdf}
-		\centering
-		\caption{Metryki statyczne scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
-	\end{figure}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Metryki dynamiczne}
+\begin{frame}[containsverbatim,noframenumbering]
+	\frametitle{Różnice w kodzie: zarządzanie zasobami}
 	\begin{columns}
-		\begin{column}{\dimexpr\paperwidth-10pt}
-			\begin{figure}
-				\includegraphics[width=\linewidth]{img/plots/metrics/3-pid-bm-perf.pdf}
-				\centering
-				\caption{Metryki dynamiczne scenariusza\BeamerEnum{\enumiii} dla \Esp{}}
-			\end{figure}
+		\begin{column}{0.53\linewidth}
+
+			\begin{lstlogo}{c}
+				\begin{minted}[highlightlines={2}]{c}
+nvs_flash_init();
+err = esp_event_loop();
+if (err != ESP_OK) {
+	nvs_flash_deinit();
+	return err;
+}
+				\end{minted}
+			\end{lstlogo}
+		\end{column}
+
+		\begin{column}{0.53\linewidth}
+			\begin{lstlogo}{zig}
+				\begin{minted}[highlightlines={3}]{zig}
+idf.nvs_flash_init();
+errdefer idf.nvs_flash_deinit();
+try esp_event_loop();
+				\end{minted}
+			\end{lstlogo}
 		\end{column}
 	\end{columns}
+
+	\begin{lstlogo}{rust}
+		\begin{minted}[highlightlines={2}]{rust}
+let nvs = EspNvsPartition::take();
+let sys_loop = EspEventLoop::take()?;
+// W bibliotece...
+impl<T: NvsPartitionId> Drop for EspNvs<T> {
+	fn drop(&mut self) {
+		unsafe { nvs_flash_deinit(self.1); }
+	}
+}
+		\end{minted}
+	\end{lstlogo}
+\end{frame}
+
+\begin{frame}[containsverbatim,noframenumbering]
+	\frametitle{Różnice w kodzie: zarządzanie zasobami}
+	\begin{columns}
+		\begin{column}{0.53\linewidth}
+
+			\begin{lstlogo}{c}
+				\begin{minted}[highlightlines={3-6}]{c}
+nvs_flash_init();
+err = esp_event_loop();
+if (err != ESP_OK) {
+	nvs_flash_deinit();
+	return err;
+}
+				\end{minted}
+			\end{lstlogo}
+		\end{column}
+
+		\begin{column}{0.53\linewidth}
+			\begin{lstlogo}{zig}
+				\begin{minted}[highlightlines={2}]{zig}
+idf.nvs_flash_init();
+errdefer idf.nvs_flash_deinit();
+try esp_event_loop();
+				\end{minted}
+			\end{lstlogo}
+		\end{column}
+	\end{columns}
+
+	\begin{lstlogo}{rust}
+		\begin{minted}[highlightlines={4-8}]{rust}
+let nvs = EspNvsPartition::take();
+let sys_loop = EspEventLoop::take()?;
+// W bibliotece...
+impl<T: NvsPartitionId> Drop for EspNvs<T> {
+	fn drop(&mut self) {
+		unsafe { nvs_flash_deinit(self.1); }
+	}
+}
+		\end{minted}
+	\end{lstlogo}
 \end{frame}
 
 \section{Wnioski}
 
 \begin{frame}
 	\frametitle{Wnioski}
-	Nowoczesne języki programowania na systemy wbudowane:
-	\begin{itemize}
-		\item mniej podatne na błędy niż \CLogo{}
-		\item potrafią konkurować wydajnością z \CLogo{}
-		\item dobrze współpracują z \CLogo{}
-	\end{itemize}
 
-	\vspace{\bigskipamount}
+	\begin{enumerate}
+		\item Język \CLogo{} nadal dominuje w systemach wbudowanych.
+		      \vspace{\bigskipamount}
+		\item Nowoczesne języki programowania na systemy wbudowane:
+		      \begin{itemize}
+			      \item są mniej podatne na błędy niż \CLogo{},
+			      \item potrafią konkurować wydajnością z \CLogo{},
+			      \item dobrze współpracują z \CLogo{}.
+		      \end{itemize}
+		      \vspace{\bigskipamount}
+		\item Z drugiej strony:
+		      \begin{itemize}
+			      \item rzadko mają bezpośrednie wsparcie twórców platformy.
+		      \end{itemize}
+	\end{enumerate}
 
-	Ale:
-	\begin{itemize}
-		\item rzadko mają bezpośrednie wsparcie twórców platformy
-	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Plan przyszłych prac}
-
-	\begin{itemize}
-		\item Zebranie metryk dynamicznych z wersji na \Rpi
-		\item Analiza i sporządzenie dokumentu
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Plan przyszłych prac}
+%
+% 	\begin{itemize}
+% 		\item Zebranie metryk dynamicznych z wersji na \Rpi
+% 		\item Analiza i sporządzenie dokumentu
+% 	\end{itemize}
+% \end{frame}
 
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
