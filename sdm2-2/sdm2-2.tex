@@ -243,7 +243,7 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item Zarządzanie pamięcią:
+			\item Zarządzanie zasobami:
 			      \begin{itemize}
 				      \item Użycie po zwolnieniu (\emph{use after free},
 				            \emph{double free}) % top 8 CWE
@@ -366,11 +366,11 @@
 	\begin{block}{Inne możliwości}
 		\begin{multicols}{2}
 			\begin{itemize}
-				\item \emph{C++}
+				\item \emph{\Cpp{}}
+				\item \emph{Ada}
 				\item \emph{Python}
 				\item \emph{Java} (Micronaut)
 				\item \emph{Go}
-				\item \emph{Ada}
 				\item \emph{Lua}
 			\end{itemize}
 		\end{multicols}
@@ -385,9 +385,9 @@
 	\begin{columns}
 		\begin{column}{.50\textwidth}
 			\begin{itemize}
-				\item[\checkmark{}] Zarządzanie pamięcią $\rightarrow$ \emph{borrow checker}
+				\item[\checkmark{}] Zarządzanie zasobami $\rightarrow$ \emph{borrow checker}
 				\item[\checkmark{}] \Cargo{} -- nowoczesny system budowania
-				\item[\checkmark{}] Bezpieczniejsze makra
+				\item[\checkmark{}] Bardziej niezawodne makra
 				      % \item[\checkmark{}] Wartość zerowa, obsługa błędów, struktury generyczne
 			\end{itemize}
 
@@ -444,7 +444,7 @@ cannot borrow `a` as mutable because it is also borrowed as immutable
 		\begin{column}{.50\textwidth}
 			\begin{itemize}
 				% \item[\checkmark{}] Prosty i spójny
-				\item[\checkmark{}] Usprawnienia w zarządzaniu pamięcią
+				\item[\checkmark{}] Usprawnienia w zarządzaniu zasobami
 				\item[\checkmark{}] Obliczenia w czasie kompilacji
 				      \begin{itemize}
 					      \item \sout{makra}
@@ -525,6 +525,42 @@ var list = List(i32){
 % 	\end{figure}
 % \end{frame}
 
+\begin{frame}
+	\frametitle{Scenariusze testowe}
+	\begin{enumerate}
+		\item Kontrola diody LED (,,stroboskop''):
+		      \begin{itemize}
+			      \item ustawienie środowiska, interakcja z modułem
+			            GPIO\footnote{GPIO -- \eng{General Purpose
+			            Input/Output}, konfigurowalne wyprowadzenia układu.}.
+		      \end{itemize}
+		\item Kontrola silnika za pomocą potencjometru:
+		      \begin{itemize}
+			      \item interakcja z modułami: ADC\footnote{ADC -- \eng{
+			            Analog/Digital Converter}, konwerter sygnału
+			            analogowego~na cyfrowy.} oraz PWM\footnote{PWM --
+			            \eng{Pulse Width Modulation}, cyfrowa metoda generacji
+			            sygnału~o zadanym napięciu średnim.}.
+		      \end{itemize}
+		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
+		      \begin{itemize}
+			      \item interakcja z modułami sieciowymi i biblioteką serwera
+			            \Modbus{},
+			      \item precyzyjny podział czasu procesora,
+			      \item realne obliczenia.
+			            % \item dodatkowo potrzebny klient \Modbus{}.
+		      \end{itemize}
+	\end{enumerate}
+
+	Realizacja na dwóch platformach:
+	\begin{multicols}{2}
+		\begin{itemize}
+			\item \Rpi{}, % (+RPI OS),
+			\item \Esp{}. % (+FreeRTOS).
+		\end{itemize}
+	\end{multicols}
+\end{frame}
+
 \begin{frame}[containsverbatim]
 	\frametitle{Metryki}
 
@@ -579,42 +615,6 @@ void ?\tikzmark{func}?func(int a, int c) {
 		\end{column}
 	\end{columns}
 
-\end{frame}
-
-\begin{frame}
-	\frametitle{Scenariusze testowe}
-	\begin{enumerate}
-		\item Kontrola diody LED (,,stroboskop''):
-		      \begin{itemize}
-			      \item ustawienie środowiska, interakcja z modułem
-			            GPIO\footnote{GPIO -- \eng{General Purpose
-			            Input/Output}, konfigurowalne wyprowadzenia układu.}.
-		      \end{itemize}
-		\item Kontrola silnika za pomocą potencjometru:
-		      \begin{itemize}
-			      \item interakcja z modułami: ADC\footnote{ADC -- \eng{
-			            Analog/Digital Converter}, konwerter sygnału
-			            analogowego~na cyfrowy.} oraz PWM\footnote{PWM --
-			            \eng{Pulse Width Modulation}, cyfrowa metoda generacji
-			            sygnału~o zadanym napięciu średnim.}.
-		      \end{itemize}
-		\item Regulacja PID obrotów silnika z komunikacją protokołem \Modbus{}:
-		      \begin{itemize}
-			      \item interakcja z modułami sieciowymi i biblioteką serwera
-			            \Modbus{},
-			      \item precyzyjny podział czasu procesora,
-			      \item realne obliczenia.
-			            % \item dodatkowo potrzebny klient \Modbus{}.
-		      \end{itemize}
-	\end{enumerate}
-
-	Realizacja na dwóch mikrokontrolerach:
-	\begin{multicols}{2}
-		\begin{itemize}
-			\item \Rpi{}, % (+RPI OS),
-			\item \Esp{}. % (+FreeRTOS).
-		\end{itemize}
-	\end{multicols}
 \end{frame}
 
 % \begin{frame}
@@ -1063,8 +1063,8 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 		\item Z drugiej strony:
 		      \begin{itemize}
 			      \item rzadko mają bezpośrednie wsparcie twórców platformy,
-			      \item mogą nie odpowiadać na niektóre wyzwania (np. rozmiar
-			            plików binarnych \RustLogo{}).
+			      \item mogą nie odpowiadać na niektóre ograniczenia (np.
+			            rozmiar plików binarnych \RustLogo{}).
 		      \end{itemize}
 	\end{enumerate}
 
@@ -1079,14 +1079,11 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 % 	\end{itemize}
 % \end{frame}
 
-% TODO: bibliografia
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
 	\nocite{*}
 	\printbibliography[heading=none]
 \end{frame}
-
-% TODO: istniejące rozwiązania
 
 % Istniejące badania dotyczące analizy porównawczej języków programowania w
 % systemach wbudowanych koncentrują się na różnych aspektach tej problematyki.
