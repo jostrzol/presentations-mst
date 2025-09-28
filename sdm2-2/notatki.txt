@@ -1,0 +1,99 @@
+1.
+
+2.
+
+3.
+Dlaczego taki temat? Trudno nie zauważyć, że na przestrzeni ostatnich dekad w
+systemach wbudowanych niezmiennie dominuje język C. Dla zilustrowania tezy -- na
+slajdzie widać wyniki ankiety przeprowadzonej przez serwis StackOverflow na
+temat najpopularniejszych technologii używanych w systemach wbudowanych. Na
+szaro zaznaczone zostały technologie związane bezpośrednio z językiem C, na
+czarno z pozostałymi językami, a na biało zakreskowane technologie niezależne od
+języka. Nasuwa się pytanie: dlaczego pomimo rozwoju nowych języków programowania
+dedykowanych do tej branży, język C jest wciąż tak silny? Dla kontrastu, w innych
+zastosowaniach, jak np. aplikacje sieciowe czy nawet systemu operacyjne, widzimy
+dużo większą różnorodność.
+
+4.
+Ponadto, pomimo, że język C wydaje się dobrze skrojony na potrzeby systemów
+wbudowanych, to nie jest on wolny od problemów. Jedną z istotniejszych kategorii
+tych problemów jest zarządzanie pamięcią i zasobami, które słabo chroni przed
+błędami takimi jak:
+* użycie po zwolnieniu, 
+* przepełnienie bufora,
+* czy jednoczesny dostęp do zasobu.
+Sytuację ilustruje wykres z prawej strony, na którym widać 20
+najpopularniejszych tagów zapytań w serwisie StackOverflow dla języka C. Na
+czarno wyróżniono tagi związane z zarządzaniem pamięcią i zasobami właśnie.
+Oprócz tego  dotkliwe są takie błędy jak:
+* brak reprezentacji wartości zerowej w systemie typów,
+* prymitywne makra,
+* brak oficjalnego systemu budowania i menadżera pakietów,
+* niejednolita obsługa błędów,
+* brak struktur/funkcji generycznych.
+
+5.
+Jakie alternatywy są dla języka C w systemach wbudowanych? Do porównania
+zdecydowałem się wybrać 2 z nich: Rust i Zig. Pierwszy z nich na stronie
+reklamuje się wydajnością, niezawodnością i produktywnością. Drugi
+charakteryzuje się prostotą, rozbudowanym systemem obliczeń w czasie kompilacji
+oraz łatwą itegracją z C i C++. W porównaniu pominąłem języki takie jak C++ czy
+Ada ze względu na ich zaawansowany wiek, a języki takie jak Python, Java, Go czy
+Lua ze względu na użycie Garbage Collectora, który często nie jest pożądany w
+systemach wbudowanych.
+
+6.
+Rust znajduje odpowiedź na większość wspomnianych problemów C. Trudności w
+zarządzaniu zasobami są rozwiązywane przez unikatowy system statycznej analizy o
+nazwie ,,borrow checker''. Gwarantuje on w czasie kompilacji poprawność
+programów pod kątem zarządzania zasobami i dostępu do pamięci. Na listingu
+po prawej zobrazowana została reguła, która mówi że w danym momencie do danego
+obiektu może istnieć albo dowolna liczba referencji niemutowalnych, albo
+maksymalnie jedna referencja mutowalna. W ostatniej linii widzimy złamanie tej
+zasady. Ponadto, Rust posiada nowoczesny system budowania Cargo, a także
+bardziej zaawansowany i odporny na błędy system makr. Najczęściej podawaną wadą
+Rusta jest wysoki poziom wejścia, głównie ze względu na zrozumienie działania
+borrow checkera.
+
+7.
+Głównym celem Ziga jest zostanie ulepszoną wersją C. Zig stara się odpowiedzieć
+na większość wspomnianych wcześniej problemów C. Zawiera on usprawnienia
+zarządzania zasobami, które oferują lepszą ochronę przed niektórymi błędami. Zig
+skupia się na obliczeniach w czasie kompilacji poprzez możliwość wołania
+dowolnych funkcji przez kompilator, co eliminuje konieczność używania makr czy
+struktur i funkcji generycznych. Przykładowo, na listingu po prawej stronie widać
+funkcję która zwraca strukturę sparametryzowaną typem elementu. W czasie
+kompilacji można wykonywać też inne, bardziej skomplikowane operacje, które mogą
+zaoszczędzić czas w trakcie wykonywania programu. Oprócz tego Zig chwali się
+prostą integracją z C/C++ poprzez użycie dyrektywy cInclude, która pozwala
+bezpośrednio wołać metody z C, przy założeniu że są odpowiednio zlinkowane.
+Najwięszą wadą Ziga jest jego bardzo młody wiek, co przekłada się na częste
+zmiany i niezawsze kompletną dokumentację. Ponadto, język Zig nie posiada aż tak
+silnych gwarancji niezawodności jak Rust z borrow checkerem.
+
+8.
+Wspomniane języki zostaną przetestowane w 3 praktycznych scenariuszach
+testowych. Pierwszym z nich jest proste mruganie diodą LED. Scenariusz ma za
+zadanie odkryć problemy przy ustawianiu środowiska, a także przetestować
+interakcję z modułem sprzętowym GPIO, czyli konfigurowalnymi wyprowadzeniami
+płytki. Drugi z nich to kontrola silnika za pomocą potencjometru. Wykorzystane
+zostaną dodatkowo sprzętowe moduły: ADC, czyli przetwornika analogowo-cyfrowego
+do czytania pozycji potencjometru oraz PWM, czyli generatora sygnału o zadanym
+napięciu średnim do sterowania silnikiem. Ostatni scenariusz to regulator PID
+obrotów silnika z komunikacją protokołem Modbus. Przetestowane zostaną:
+interakcja z modułami sieciowymi i biblioteką serwera Modbus, precyzyjny podział
+czasu procesora wymagany do poprawnego działania algorytmu. Scenariusze zostaną
+zrealizowane na 2 platformach sprzętowych: RaspberryPi oraz ESP32.
+
+9.
+Dla podanych scenariuszy będą mierzone metryki. Pierwszą z nich jest rozmiar
+pliku binarnego, istotny ze względu na ograniczoną pamięć systemów wbudowanych.
+Kolejno złożoność cyklometryczna CCN, która jest miarą rozgałęzienia kodu. W
+przykładzie po prawej stronie widzimy, że każda funkcja bazowo otrzymuje 1 punkt
+CCN, a z każdą instrukcją wprowadzającą kolejny warunek logiczny, dodawane są
+kolejne punkty. W pracy pominąłem bazowy 1 punkt, by nie karać implementacji za
+sam fakt dodania funkcji. Liczba linii kodu bez komentarzy i liczba tokenów
+leksera mają estymować "wylewność" języka, która może przekładać się na
+produktywność. W ramach metryk dynamicznych zostaną zmierzone czas wykonania
+iteracji a także zajętość stosu i sterty. Zostaną one wyznaczone na podstawie
+dziesiątek do setek tyś prób w zależności od scenariusza.
