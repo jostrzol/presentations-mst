@@ -1062,7 +1062,9 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 		      \vspace{\bigskipamount}
 		\item Z drugiej strony:
 		      \begin{itemize}
-			      \item rzadko mają bezpośrednie wsparcie twórców platformy.
+			      \item rzadko mają bezpośrednie wsparcie twórców platformy,
+			      \item mogą nie odpowiadać na niektóre wyzwania (np. rozmiar
+			            plików binarnych \RustLogo{}).
 		      \end{itemize}
 	\end{enumerate}
 
@@ -1082,6 +1084,66 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 	\frametitle{Bibliografia}
 	\nocite{*}
 	\printbibliography[heading=none]
+\end{frame}
+
+% TODO: istniejące rozwiązania
+
+% Istniejące badania dotyczące analizy porównawczej języków programowania w
+% systemach wbudowanych koncentrują się na różnych aspektach tej problematyki.
+% Plauska et al. \cite{esp32-lang-comparison} przeprowadzili kompleksową analizę
+% wydajności języków programowania \C{}/\Cpp{}, \emph{MicroPython}, \Rust{} oraz
+% \emph{TinyGo} na mikrokontrolerze ESP32. Ich badania skupiały się na
+% implementacji algorytmów przetwarzania sygnałów i funkcji kryptograficznych.
+% Niniejsza praca rozszerza to badanie o dodatkową platformę sprzętową -- \Rpi{},
+% uwzględnia niedokładnie zbadany dotąd język \Zig{} oraz analizuje szerszy
+% zakres kryteriów jakościowych. Ocena wydajności języków może jednak okazać się
+% mniej dokładna niż w przytoczonej pracy, ze względu na praktyczny charakter
+% testów.
+%
+% Balakrishnan i Nattanmai Ganesh \cite{cpp-vs-rust} w swojej pracy porównali
+% język \Cpp{} z językiem Rust na platformie STM32, implementując algorytmy
+% generacji dźwięku silnika oraz \emph{quicksort}. Ich analiza ogranicza się
+% tylko do dwóch języków i koncentruje się przede wszystkim na czasach wykonania
+% oraz aspektach implementacyjnych. Niniejsza praca poszerza ten zakres poprzez
+% wprowadzenie dodatkowych kryteriów, zarówno ilościowych i jakościowych, a także
+% włączenie do porównania trzeciego języka -- \Zig{}.
+%
+% Averiyanihin et al. \cite{Averiyanihin2021ExperimentalSO} przeprowadzili
+% doświadczalne badanie szybkości działania i zużycia zasobów dla języków
+% programowania na systemy wbudowane: \C{} i \Cpp{}. Zakres ich analizy ogranicza
+% się do porównania tradycyjnych języków w syntetycznych warunkach (algorytmy
+% grafowe). Niniejsza praca skupia się natomiast na przetestowaniu rzeczywistych
+% scenariuszy na dedykowanych do systemów wbudowanych platformach, co pozwala na
+% lepszą ocenę przydatności nowoczesnych języków w realnych zastosowaniach
+% systemów wbudowanych.
+
+\begin{frame}[noframenumbering]
+	\frametitle{Istniejące rozwiązania}
+
+	\begin{itemize}
+		\item Plauska et al. \cite{esp32-lang-comparison}:
+		      \begin{itemize}
+			      \item analiza \C{}/\Cpp{}, \emph{MicroPython}, \Rust{},
+			            \emph{TinyGo} na \Esp{};
+			      \item algorytmy przetwarzania sygnałów i kryptograficzne;
+			      \item zorientowanie na wydajność.
+		      \end{itemize}
+
+		\item Balakrishnan i Nattanmai Ganesh \cite{cpp-vs-rust}:
+		      \begin{itemize}
+			      \item porównanie \Cpp{} i \Rust{} na STM32;
+			      \item generacja dźwięku silnika, quicksort;
+			      \item zorientowanie na wydajność, tylko dwa języki.
+		      \end{itemize}
+
+		\item Averiyanihin et al. \cite{Averiyanihin2021ExperimentalSO}:
+		      \begin{itemize}
+			      \item badanie \C{} i \Cpp{} w systemach wbudowanych;
+			      \item algorytmy grafowe w syntetycznych warunkach;
+			      \item zorientowanie na wydajność; tylko dwa (nie nowoczesne)
+			            języki programowania.
+		      \end{itemize}
+	\end{itemize}
 \end{frame}
 
 \end{document}
