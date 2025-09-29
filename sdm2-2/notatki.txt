@@ -89,11 +89,85 @@ zrealizowane na 2 platformach sprzętowych: RaspberryPi oraz ESP32.
 Dla podanych scenariuszy będą mierzone metryki. Pierwszą z nich jest rozmiar
 pliku binarnego, istotny ze względu na ograniczoną pamięć systemów wbudowanych.
 Kolejno złożoność cyklometryczna CCN, która jest miarą rozgałęzienia kodu. W
-przykładzie po prawej stronie widzimy, że każda funkcja bazowo otrzymuje 1 punkt
-CCN, a z każdą instrukcją wprowadzającą kolejny warunek logiczny, dodawane są
-kolejne punkty. W pracy pominąłem bazowy 1 punkt, by nie karać implementacji za
-sam fakt dodania funkcji. Liczba linii kodu bez komentarzy i liczba tokenów
-leksera mają estymować "wylewność" języka, która może przekładać się na
-produktywność. W ramach metryk dynamicznych zostaną zmierzone czas wykonania
-iteracji a także zajętość stosu i sterty. Zostaną one wyznaczone na podstawie
-dziesiątek do setek tyś prób w zależności od scenariusza.
+przykładzie po prawej stronie widzimy, że każda funkcja bazowo otrzymuje 1
+punkt CCN, a z każdą instrukcją wprowadzającą kolejny warunek logiczny,
+dodawane są kolejne punkty. W pracy pominąłem bazowy 1 punkt, by nie karać
+implementacji za sam fakt dodania funkcji. Liczba linii kodu bez komentarzy i
+liczba tokenów leksera mają estymować "wylewność" języka, która może przekładać
+się na produktywność. W ramach metryk dynamicznych zostaną zmierzone czas
+wykonania iteracji a także zajętość stosu i sterty. Zostaną one wyznaczone na
+podstawie dziesiątek do setek tyś prób w zależności od scenariusza.
+
+10.
+Teraz przejdziemy do wyników pracy. Na początku wyniki ankiety, gdzie udało mi się zebrać 86 odpowiedzi od użytkowników różnych forów poświęconych systemom wbudowanym. Jednym z celów ankiety była weryfikacja tezy o dominacji języków C oraz C++ w systemach wbudowanych. Wykres po lewej stronie prezentuje odpowiedzi na pytanie wielokrotnego wyboru ,,Jakich języków programowania używasz do systemów wbudowanych'', a po prawej -- ,,Jaka część pisanego przez Ciebie kodu na systemy wbudowane jest napisana w języku C lub C++''. Wyniki jednoznacznie potwierdzają wspomnianą tezę
+
+11.
+Kolejnym z celów było ustalenie, czy problemy rozwiązywalne przez skorzystanie z nowoczesnego języka są istotne dla programistów systemów wbudowanych. Widoczne wykresy przedstawiają ocenę na pytanie ,,Jak oceniasz istotność danego problemu w systemach wbudowanych w skali od 1 do 5''. Wykresy od a) do f) są ustawione w porządku malejącej średniej istotności, czyli problem a) jest średnio najbardziej istotny, a f) najmniej. Problemy pochodziły z różnych kategorii -- w tym momencie podświetlone są wykresy istotności problemów, które są mało powiązane z językiem programowania, czyli a) interakcja ze sprzętem oraz d) debugowanie na mikrokontrolerze. Kolejno 2 istotne wykresy z kategorii wydajność: ograniczenia czasu wykonania i pamięci. Alternatywa dla języka C powinna stawiać te 2 aspekty wysoko na liście priorytetów. Na koniec problemy, które mogą potencjalnie zostać załagodzone przy użyciu nowoczesnych języków programowania, czyli podatności pamięci i skomplikowanie narzędzi. Okazuje się, że około połowa respondentów jest dotknięta tymi problemami przynajmniej w średnim stopniu, co może ich skłaniać do spróbowania alternatyw dla języka C.
+
+12.
+Przechodząc do wyników eksperymentów technicznych, chciałbym zaprezentować
+ich podzbiór dla platformy ESP32. Podświetlony został rząd wykresów
+przedstawiający rozmiar pliku wykonywalnego, gdzie możemy zobaczyć zdecydowan
+przegraną języka Rust, który w każdym ze scenariuszy potrzebuje ok. 250 kB
+więcej. Kolejno, złożoność cyklometryczna, w której Rust, szczególnie w
+scenariuszu 3, poradził sobie najlepiej. Myślę, że jest to głównie zasługa
+możliwości tworzenia wysoko funkcjonalnych bibliotek, jakie daje Rust, dzięki
+elementom takim jak funkcje i struktury generyczne czy automatyczna
+dealokacja zasobów przy destrukcji obiektów. Zig miał potencjał również
+osiągnąć tutaj lepszy wynik niż C, jednak brakowało do niego dedykowanej
+biblioteki do ESP32, co wymagało wołania funkcji z biblioteki C. Na koniec
+liczba tokenów, która pokazuje bardzo podobny trend co złożoność
+cyklometryczna.
+
+13.
+Pierwszy rząd wykresów prezentuje średnie czasy wykonania iteracji
+poszczególnych scenariuszy, przy czym scenariusz 3 został rozbity na
+fazę CONTROL, zajmującą się obliczaniem i ustawianiem sterowania oraz fazę
+READ, która zajmowała się zczytywaniem aktualnej wartości z przetwornika ADC.
+Trudno wyłonić zwycięzcę pod względem czasu wykonania iteracji, jednak zdaje
+się,
+że najgorzej wypadł tu język Rust, szczególnie w fazie CONTROL scenariusza 3.Zig
+i C wypadają podobnie. Zużycie pamięci, podzielone na stos i stertę zostało
+przedstawione na donlym wykresie. W każdym przypadku zdecydowaną większość
+zajmuje sterta (słupki zakropkowane), a zużycie stosu jest ledwo widoczne
+(słupki zakreskowane na górze zakropkowanych). Tutaj znowu Rust wypada
+najgorzej na tle konkrurentów, zużywając zawsze kilkanaście kB więcej.
+
+14.
+Chciałbym przedstawić też wybrane różnice w kodzie scenariuszy. Na początek
+przykład pokazujący propagację błędów na przykładzie funkcji realizującej
+fazę READ scenariusza 3. Każda z funkcji może zakończyć się błędem, co w C
+skutkuje zwróceniem kodu błędu, a w Rust i Zig specjalnego wariantu błędu typu
+rezultatu, który ma dodatkowe wsparcie w składni języka. W pierwszej
+kolejności zczytujemy obecną wartość z przetwornika ADC jako wynik funkcji
+pomocniczej read_adc. W C wartość musi zostać ustawiona pośrednio poprzez
+wskaźnik, a Zig i Rust umożliwiają bezpośrednie przypisanie wyniku działania
+funkcji. Dzieje się tak dzięki operatorom 'try' oraz '?', które w przypadku
+sukcesu przyjmują zwracaną z funkcji wartość, a w przypadku błędu propagują go
+wyżej. W C propagacja musi zostać przeprowadzona ręcznie w funkcji warunkowej.
+
+15.
+Kolejno, różnice w zarządzaniu zasobami. Do inicjalizacji modułu WiFi trzeba
+było zainicjować kilka innych zasobów. Na przykładzie widzimy inicjalizację 2 z
+nich, czyli pamięć nieulotną i pętlę zdarzeń. W linijce 1 każdego języka
+inicjalizowana jest pamięć nieulotna. Kolejno, widzimy inicjalizację pętli
+zdarzeń, która może zakończyć się błędem. Musimy zatem zadbać o poprawne
+zwolnienie pamięci nieulotnej w przypadku błędu, by nie zostawiać systemu w
+stanie niespójnym. W jest to robione ręcznie przy pomocy instrukcji
+warunkowych, co przy dłuższej liście zasobów jest powtarzalne i podatne na
+błędy. W Zig skorzystano z dyrektywy 'errdefer', która gwarantuje wykonanie
+dealokacji zasobu w przypadku zwrócenia błędu z obecnej funkcji. W Rust pamięć
+zwalniana jest automatycznie, przy destrukcji obiektu `nvs`, co zostało
+zdefiniowane w bibliotece i nie wymaga manualnej ingerencji programisty.
+
+16.
+Wnioski:
+1. Udało się udowodnić tezę o dominacji języka C na bazie przeprowadzonej
+ankiety.
+2. Zgodnie z moimi doświadczeniami, nowoczesne języki są mniej podatne na
+błędy niż C, a przy tym często potrafią z nim konkurować wydajnością a także
+dobrze się z nim integrować.
+3. Z drugiej strony rzadko mają bezpośrednie wsparcie twórców platformy (np.
+brak bibliotek ESP32 do Zig), a także w niektórych przypadkach mogą nie
+odpowiadać na niektóre ograniczenia (szczególnie duży rozmiar plików
+binarnych w Rust).
