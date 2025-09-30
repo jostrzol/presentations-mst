@@ -192,7 +192,7 @@
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/so-survey.pdf}
 			\centering
-			\caption{\citetitle{so-survey} \cite{so-survey}}
+			\caption{\citetitle{so-survey} \cite{so-survey}.}
 		\end{figure}
 	\end{columns}
 \end{frame}
@@ -260,7 +260,8 @@
 		\begin{figure}
 			\includegraphics[width=\linewidth]{img/plots/top-tags/top-tags-c-slide.pdf}
 			\captionsetup{margin={1.6cm,0cm}}
-			\caption{Najpopularniejsze tagi zapytań z serwisu \emph{StackOverflow} dla języka \C{} \cite{so-db}}
+			\caption{Najpopularniejsze tagi zapytań z serwisu
+				\emph{StackOverflow} dla języka \C{} \cite{so-db}.}
 			\centering
 		\end{figure}
 	\end{columns}
@@ -835,7 +836,7 @@ void ?\tikzmark{func}?func(int a, int c) {
 	esp_err_t err = read_adc(self, &value);
 	if (err != ESP_OK)
 		return err;
-}
+	// ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -843,7 +844,7 @@ void ?\tikzmark{func}?func(int a, int c) {
 		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
 fn read_phase(self: *Self) |\colorbox{codehl}{!void}| {
 	const value = try self.read_adc();
-}
+	// ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -851,7 +852,7 @@ fn read_phase(self: *Self) |\colorbox{codehl}{!void}| {
 		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
 pub fn read_phase(&mut self) -> |\colorbox{codehl}{Result<()>}| {
 	let value = self.read_adc()?;
-}
+	// ...
 		\end{minted}
 	\end{lstlogo}
 \end{frame}
@@ -866,7 +867,7 @@ esp_err_t read_phase(controller_t *self) {
 	esp_err_t err = read_adc(self, |\colorbox{codehl}{&value}|);
 	if (err != ESP_OK)
 		return err;
-}
+	// ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -874,7 +875,7 @@ esp_err_t read_phase(controller_t *self) {
 		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
 fn read_phase(self: *Self) !void {
 	|\colorbox{codehl}{const value}| = try self.read_adc();
-}
+  // ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -882,7 +883,7 @@ fn read_phase(self: *Self) !void {
 		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
 pub fn read_phase(&mut self) -> Result<()> {
 	|\colorbox{codehl}{let value}| = self.read_adc()?;
-}
+  // ...
 		\end{minted}
 	\end{lstlogo}
 \end{frame}
@@ -897,7 +898,7 @@ esp_err_t read_phase(controller_t *self) {
 	|\colorbox{codehl}{esp\_err\_t}| err = read_adc(self, &value);
 	|\colorbox{codehl}{if (err != ESP\_OK)}|
 	|\colorbox{codehl}{    return err;   }|
-}
+  // ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -905,7 +906,7 @@ esp_err_t read_phase(controller_t *self) {
 		\begin{minted}[escapeinside=||,framesep=2pt]{zig}
 fn read_phase(self: *Self) !void {
 	const value = |\colorbox{codehl}{try}| self.read_adc();
-}
+  // ...
 		\end{minted}
 	\end{lstlogo}
 
@@ -913,7 +914,7 @@ fn read_phase(self: *Self) !void {
 		\begin{minted}[escapeinside=||,framesep=2pt]{rust}
 pub fn read_phase(&mut self) -> Result<()> {
 	let value = self.read_adc()|\colorbox{codehl}{?}|;
-}
+  // ...
 		\end{minted}
 	\end{lstlogo}
 \end{frame}
@@ -1140,6 +1141,26 @@ impl<T: NvsPartitionId> Drop for EspNvs<T> {
 			            języki programowania.
 		      \end{itemize}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+	\frametitle{Układ testowy}
+
+	\begin{figure}
+		\includegraphics[width=\linewidth]{img/photos/3-pid-bm-top-down.png}
+		\centering
+		\caption{Rzut z góry na układ testowy scenariusza 3 na \Esp{}.}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+	\frametitle{Układ testowy}
+
+	\begin{figure}
+		\includegraphics[width=\linewidth]{img/photos/3-pid-bm-profile.png}
+		\centering
+		\caption{Rzut z boku na układ testowy scenariusza 3 na \Esp{}.}
+	\end{figure}
 \end{frame}
 
 \end{document}
